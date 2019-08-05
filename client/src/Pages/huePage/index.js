@@ -34,13 +34,12 @@ class HuePage extends Component {
   checkForAuthCode = () => {
     const url = window.location.href;
     if (url.includes('code')) {
-      const code = url.split('.com/hue?code=')[1].split('&state=none')[0]; 
+      const code = url.split('.com/hue?code=')[1].split('&state=none')[0];
       const hueState = url.split('&state=')[1];
       axios.post('/api/v1/huelights/connect', {
         code: code
       }).then(res => {
         const accessToken = res.data;
-        console.log(res.data);
         this.setState({ access_token: accessToken });
         this.setState({ expired: false });
         this.setState({ redirect: hueState });
@@ -69,9 +68,8 @@ class HuePage extends Component {
   redirect = () => {
     axios.get('/api/v1/huelights/url').then(res => {
       const url = res.data;
-      console.log(url);
       window.location.href = url;
-    }).catch(err => { console.log(err) });
+    }).catch(err => { console.log(err); });
   };
 
   loadGameId = () => {
@@ -83,7 +81,6 @@ class HuePage extends Component {
 
   connectionHandler = () => {
     const accessToken = this.state.access_token;
-    console.log(accessToken)
     axios.post('/api/v1/huelights/bridge', {
       accessToken: accessToken
     }).then(res => {
@@ -91,7 +88,6 @@ class HuePage extends Component {
       this.setState({ username: userName })
       this.setState({ expired: false })
       this.findAllLights();
-      console.log(res.data)
     }).catch(
       this.setState({ expired: true }))
   };
@@ -101,14 +97,10 @@ class HuePage extends Component {
       user: this.state.username,
       token: this.state.access_token
     }).then(res => {
-      console.log(res.data)
       const lights = res.data.map(lights => lights[1].name)
       // I only want lights to be selectable if they are reachable
       const isReachable = res.data.map(lights => !lights[1].state.reachable) // Yields an inverted boolean to be passed into the <select> disabled value
-      console.log(isReachable)
       const lightId = res.data.map(lights => lights[0]);
-      console.log(lightId)
-      console.log(lights);
       this.setState({ lights });
       this.setState({ lightId });
       this.setState({ isReachable })
@@ -204,29 +196,29 @@ class HuePage extends Component {
         <NavTabs game_id={this.state.game_id} game_name={this.state.game_name} secret={this.state.secret} />
         <Heading className="title-1" size={1}>Lanterns</Heading>
         <Card id="huebox">
-      
-         
-            {!this.state.expired ?
-              <div>
-                {this.resetUrl()}
-                <div className="select" onClick={this.findAllLights}>
-                  <select onChange={this.handleChange} value={this.state.selectedLight}>
-                    <option selected="selected">Select A Light</option>
-                    {this.state.lights.map((lights, index) => (
-                      <option disabled={this.state.isReachable[index]} value={this.state.lightId[index]} key={this.state.lightId[index]}>{lights}</option>
-                    ))}
-                  </select>
-                </div>
-                <Lights
-                  lightOn={this.lightOn}
-                  lightOff={this.lightOff}
-                  critical={this.criticalRoll}
-                  fadeOut={this.fadeOut}
-                  fadeIn={this.fadeIn}>
-                </Lights></div> : <div><MyButton text="Connect To Hue" onClick={this.redirect}></MyButton></div>}
-        
-          </Card>
-     
+
+
+          {!this.state.expired ?
+            <div>
+              {this.resetUrl()}
+              <div className="select" onClick={this.findAllLights}>
+                <select onChange={this.handleChange} value={this.state.selectedLight}>
+                  <option selected="selected">Select A Light</option>
+                  {this.state.lights.map((lights, index) => (
+                    <option disabled={this.state.isReachable[index]} value={this.state.lightId[index]} key={this.state.lightId[index]}>{lights}</option>
+                  ))}
+                </select>
+              </div>
+              <Lights
+                lightOn={this.lightOn}
+                lightOff={this.lightOff}
+                critical={this.criticalRoll}
+                fadeOut={this.fadeOut}
+                fadeIn={this.fadeIn}>
+              </Lights></div> : <div><MyButton text="Connect To Hue" onClick={this.redirect}></MyButton></div>}
+
+        </Card>
+
       </React.Fragment>
     );
   }
