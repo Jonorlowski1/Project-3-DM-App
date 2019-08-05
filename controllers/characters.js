@@ -22,7 +22,7 @@ const addMonster = async (req, res) => {
     const monster = await db.Monsters.findOne({ where: { name: req.params.name } });
     const character = await db.Characters.create({
       name: monster.name,
-      initiative: 0,
+      initiative: (Math.floor(Math.random() * (20)) + 1),
       armor_class: monster.armor_class,
       hit_points: monster.hit_points,
       image: './images/brute.png',
