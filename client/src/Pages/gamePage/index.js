@@ -4,6 +4,7 @@ import GameCard from '../../components/gameCard';
 import { Form, Container, Heading } from 'react-bulma-components';
 import { Link } from "react-router-dom";
 import MyButton from '../../components/buttons';
+import NavTabs from '../../components/navTabs';
 import './index.css';
 
 class GamePage extends Component {
@@ -85,6 +86,7 @@ class GamePage extends Component {
     render() {
         return (
             <React.Fragment>
+                  <NavTabs game_id={this.state.game_id} game_name={this.state.game_name} secret={this.state.secret} />
                 <h1 className="title-1 loginTitle" style={{textAlign: 'center'}}>Game List</h1>
                 {this.checkForEmpty()}
                 <form onSubmit={this.handleSubmit}>
