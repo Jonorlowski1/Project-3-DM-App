@@ -43,8 +43,8 @@ class HuePage extends Component {
         this.setState({ access_token: accessToken });
         this.setState({ expired: false });
         this.setState({ redirect: hueState });
-        localStorage.setItem("state", JSON.stringify(this.state));
         this.connectionHandler();
+        
       }).catch(err => {
         console.log(err);
       })
@@ -57,7 +57,7 @@ class HuePage extends Component {
     }
   }
 
-  onUnload = (event) => {
+  onUnload = () => {
     localStorage.setItem("state", JSON.stringify(this.state));
   }
 
@@ -89,8 +89,8 @@ class HuePage extends Component {
       this.setState({ expired: false })
       this.findAllLights();
     }).catch(
-      this.setState({ expired: true }))
-  };
+      this.setState({ expired: true })
+    )};
 
   findAllLights = () => {
     axios.post('/api/v1/huelights/alllights', {
@@ -104,6 +104,7 @@ class HuePage extends Component {
       this.setState({ lights });
       this.setState({ lightId });
       this.setState({ isReachable })
+      localStorage.setItem("state", JSON.stringify(this.state));
     });
 
   };
