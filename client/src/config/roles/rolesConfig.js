@@ -18,6 +18,10 @@ export default {
     admin: {
       routes: [
         {
+          component: 'GamePage', 
+          url: '/game'
+        },
+        {
           component: 'InitAdminPage',
           url: '/initadmin'
         },
