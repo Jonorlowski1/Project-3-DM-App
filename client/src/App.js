@@ -30,16 +30,8 @@ class App extends Component {
       <Router>
         <React.Fragment>
           <Switch>
-           
-           
-            <Route exact path='/init' component={InitPage} />
-            <Route exact path='/initadmin' component={InitAdminPage} />
-            <Route exact path='/hue' component={HuePage} />
-            <Route exact path='/game' component={GamePage} />
-         
-      
-            <Route exact path='/creategame' component={CreateGamePage} />
-            <Route exact path='/createcharacter' component={CreateCharacterPage} />
+            <Route path="/game" component={PrivateRoutes} />
+            <Route path="/" component={PublicRoutes} />
           </Switch>
         </React.Fragment>
       </Router>

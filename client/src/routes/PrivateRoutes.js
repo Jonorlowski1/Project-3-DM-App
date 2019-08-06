@@ -22,7 +22,7 @@ const PrivateRoutes = ({match}) => (
    exact component={HuePage} 
   />
   <Route 
-   path={`${match.path}game`}
+   path={`${match.path}`}
    exact component={GamePage} 
   />
   <Route 
