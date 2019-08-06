@@ -44,7 +44,7 @@ class HuePage extends Component {
         this.setState({ expired: false });
         this.setState({ redirect: hueState });
         this.connectionHandler();
-        localStorage.setItem("state", JSON.stringify(this.state));
+        
       }).catch(err => {
         console.log(err);
       })
@@ -104,6 +104,7 @@ class HuePage extends Component {
       this.setState({ lights });
       this.setState({ lightId });
       this.setState({ isReachable })
+      localStorage.setItem("state", JSON.stringify(this.state));
     });
 
   };
