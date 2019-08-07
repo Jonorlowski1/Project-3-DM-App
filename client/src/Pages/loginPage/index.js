@@ -51,7 +51,10 @@ class LoginPage extends Component {
         });
       }
     } catch (err) {
-      if (err) throw err;
+      if (err) {
+        alert('Login failed, incorrrect e-mail or password');
+        // throw err;
+      }
       this.setState({
         loginSuccess: false,
       })
