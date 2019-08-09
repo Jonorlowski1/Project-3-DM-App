@@ -2,13 +2,13 @@ import React from 'react';
 import { Route, Link } from "react-router-dom";
 import { uniqBy } from 'lodash';
 import rolesConfig from './rolesConfig.js';
-import * as Routes from './index';
 
+const admin = JSON.parse(localStorage.getItem("isAdmin"));
 
 // TODO: Replace hardcoded roles with redux, localStorage, or get from server.
 const roles = [
  //user roles + concatinate common role
- ...['user', 'admin']
+ ...['user', admin]
 ];
 
 let allowedRoutes = roles.reduce((acc, role) => {
@@ -31,7 +31,7 @@ const PrivateRoutes = ({match}) => (
             <Route
               key={component}
               path={`${match.path}${url}`}
-              component={Routes[component]}
+              component={component}
             />
           ))
         }

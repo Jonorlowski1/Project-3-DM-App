@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import 'react-bulma-components/dist/react-bulma-components.min.css';
 import PublicRoutes from './routes/PublicRoutes.js';
-import PrivateRoutes from './config/roles.js';
+import PrivateRoutes from './config/roles/roles.js';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 
