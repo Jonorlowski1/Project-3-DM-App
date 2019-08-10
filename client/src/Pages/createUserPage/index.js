@@ -88,7 +88,7 @@ class CreateUserPage extends Component {
                         <Form.Input
                             value={this.state.email}
                             onChange={this.handleChange}
-                            className="input"
+                            className="input is-static"
                             type="email"
                             id="email"
                         />
