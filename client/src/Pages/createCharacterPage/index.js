@@ -38,7 +38,6 @@ class CreateCharacterPage extends Component {
 
     onPick(image) {
         this.setState({ image })
-        console.log(image.src)
     }
 
 
@@ -82,9 +81,6 @@ class CreateCharacterPage extends Component {
                 this.setState({
                     createSuccess: true,
                 });
-                console.log(this.state.createSuccess);
-            } else {
-                console.log('error on createCharacter');
             }
         } catch (err) {
             if (err) throw err;
@@ -96,7 +92,6 @@ class CreateCharacterPage extends Component {
 
     checkForAdmin = () => {
         if (this.props.location.state.admin) {
-            console.log("Admin is true");
             return <Redirect to={{
                 pathname: '/initadmin',
                 state: {
@@ -108,7 +103,6 @@ class CreateCharacterPage extends Component {
             }} />
         }
         else {
-            console.log("Admin is ");
             return (<Redirect to={{
                 pathname: '/init',
                 state: {

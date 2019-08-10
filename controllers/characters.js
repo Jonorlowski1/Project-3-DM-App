@@ -1,5 +1,42 @@
 const db = require('../models');
 
+const monsterType = (type) => {
+  switch (type) {
+    case 'aberration':
+      return './images/aberration.png';
+    case 'beast':
+      return './images/beast.png';
+    case 'celestial':
+      return './images/celestial.png';
+    case 'construct':
+      return './images/construct.png';
+    case 'dragon':
+      return './images/dragon.png';
+    case 'elemental':
+      return './images/elemental.png';
+    case 'fey':
+      return './images/fey.png';
+    case 'fiend':
+      return './images/fiend.png';
+    case 'giant':
+      return './images/giant.png';
+    case 'humanoid':
+      return './images/humanoid.png';
+    case 'monstrosity':
+      return './images/monstrosity.png';
+    case 'ooze':
+      return './images/ooze.png';
+    case 'plant':
+      return './images/plant.png';
+    case 'swarm of Tiny beasts':
+      return './images/swarm.png';
+    case 'undead':
+      return './images/undead.png';
+    default: return './images/brute.png';
+  }
+}
+
+
 const create = async (req, res) => {
   try {
     const character = await db.Characters.create(req.body);
@@ -22,10 +59,10 @@ const addMonster = async (req, res) => {
     const monster = await db.Monsters.findOne({ where: { name: req.params.name } });
     const character = await db.Characters.create({
       name: monster.name,
-      initiative: 0,
+      initiative: (Math.floor(Math.random() * (20)) + 1),
       armor_class: monster.armor_class,
       hit_points: monster.hit_points,
-      image: './images/brute.png',
+      image: monsterType(monster.type),
       turn_order: 0,
       strength: monster.strength,
       dexterity: monster.dexterity,

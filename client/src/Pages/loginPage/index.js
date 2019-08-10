@@ -40,7 +40,6 @@ class LoginPage extends Component {
         password: this.state.password
       });
       if (response.data) {
-        console.log(response.data);
         const admin = response.data.admin;
         const user_id = response.data.id;
         localStorage.setItem("isAdmin", JSON.stringify(admin));
@@ -50,11 +49,12 @@ class LoginPage extends Component {
           user_id,
           loginSuccess: true
         });
-      } else {
-        console.log('error on handleLogin');
       }
     } catch (err) {
-      if (err) throw err;
+      if (err) {
+        alert('Login failed, incorrrect e-mail or password');
+        // throw err;
+      }
       this.setState({
         loginSuccess: false,
       })

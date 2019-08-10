@@ -36,14 +36,11 @@ class CreateGamePage extends Component {
                 user_id: this.props.location.state.user_id
             });
             if (response.data) {
-                console.log(response.data);
                 this.setState({
                     game_id: response.data.id,
                     secret,
                     createSuccess: true,
                 });
-            } else {
-                console.log(response);
             }
         } catch (err) {
             if (err) throw err;

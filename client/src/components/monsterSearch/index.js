@@ -14,7 +14,19 @@ class MonsterSearch extends Component {
     };
     this.addMonster = this.addMonster.bind(this);
   }
- 
+
+  // menuStyle = {
+  //   borderRadius: '3px',
+  //   boxShadow: '0 2px 12px rgba(0, 0, 0, 0.1)',
+  //   background: 'rgba(255, 255, 255, 0.9)',
+  //   padding: '2px 0',
+  //   fontSize: '90%',
+  //   position: 'fixed',
+  //   overflow: 'auto',
+  //   maxHeight: '50%', // TODO: don't cheat, let it flow to the bottom
+  //   "zIndex": 100,
+  // };
+
   componentDidMount() {
     this.loadGameId();
     axios.get('/api/v1/monsters/list')
@@ -25,17 +37,11 @@ class MonsterSearch extends Component {
   loadGameId = () => {
     let game_id = this.props.game_id;
     this.setState({ game_id });
-    console.log('GAME_ID', game_id);
   };
 
   addMonster(game_id) {
-    // axios.get(`api/v1/monsters/${this.state.monsterName}`)
-    //   .then(
-    //     ({ data: results }) => this.setState({ results }))
-    //   .catch(console.error);
     axios.post('api/v1/characters/name/' + this.state.monsterName + '&' + game_id)
       .then(() => {
-        this.setState({ monsterName: '' });
         this.props.loadChars()
       })
       .catch(console.error);
@@ -58,6 +64,17 @@ class MonsterSearch extends Component {
           value={this.state.monsterName}
           onChange={(e) => this.setState({ monsterName: e.target.value })}
           onSelect={(val) => this.setState({ monsterName: val })}
+          menuStyle={{
+            borderRadius: '3px',
+            boxShadow: '0 2px 12px rgba(0, 0, 0, 0.1)',
+            background: 'rgba(255, 255, 255, 0.9)',
+            padding: '2px 0',
+            fontSize: 'calc(20% + 2.0vh)',
+            position: 'fixed',
+            overflow: 'auto',
+            maxWidth: '200px',
+            maxHeight: '200px', // TODO: don't cheat, let it flow to the bottom
+          }}
         />
         <MyButton className="searchbutton" id="monsterSearchButton" text="Add Monster" primary={false} onClick={() => this.addMonster(this.state.game_id)}></MyButton>
       </div>

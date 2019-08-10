@@ -58,8 +58,6 @@ class CreateUserPage extends Component {
                         admin,
                         user_id
                     });
-                } else {
-                    console.log('error on createUser');
                 }
             }
         } catch (err) {

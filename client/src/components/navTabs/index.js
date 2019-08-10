@@ -4,7 +4,6 @@ import { Tabs } from 'react-bulma-components';
 
 
 function NavTabs(props) {
-    console.log("NavTabs game_id", props.game_id)
     return (
         <Tabs type='toggle' fullwidth={true}>
             <Tabs.Tab renderAs="div">
