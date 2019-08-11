@@ -7,6 +7,9 @@ import MyButton from '../../components/buttons';
 import NavTabs from '../../components/navTabs';
 import './index.css';
 
+const currentUser = JSON.parse(localStorage.getItem("user_id"));
+const isAdmin = JSON.parse(localStorage.getItem("isAdmin"));
+
 class GamePage extends Component {
     state = {
         gameList: [],
@@ -14,6 +17,10 @@ class GamePage extends Component {
     }
 
     componentDidMount() {
+        if (!currentUser) {
+            this.props.history.push('/');
+        }
+
         this.loadGames();
     }
 
@@ -25,7 +32,7 @@ class GamePage extends Component {
     }
 
     loadGames = () => {
-        axios.get('/api/v1/games/' + this.props.location.state.user_id)
+        axios.get('/api/v1/games/' + currentUser)
             .then(res => {
                 let gameList = res.data;
                 if (gameList !== this.state.gameList) {
@@ -35,14 +42,14 @@ class GamePage extends Component {
     };
 
     checkForAdmin = () => {
-        let admin = this.props.location.state.admin;
+        let admin = isAdmin;
         if (admin) {
             return (
                 <Link to={{
                     pathname: '/creategame',
                     state: {
-                        admin: this.props.location.state.admin,
-                        user_id: this.props.location.state.user_id
+                        admin: isAdmin,
+                        user_id: currentUser
                     }
                 }}>
                     <MyButton text="Create New Game" primary={false}></MyButton>
@@ -54,7 +61,7 @@ class GamePage extends Component {
 
     bindGame = (event) => {
         event.preventDefault();
-        axios.post('/api/v1/games/' + this.props.location.state.user_id, {
+        axios.post('/api/v1/games/' + currentUser, {
             secret: this.state.gameKey,
         }).then(res => {
             this.loadGames();
@@ -75,8 +82,8 @@ class GamePage extends Component {
                         key={game.id}
                         name={game.name}
                         secret={game.secret}
-                        admin={this.props.location.state.admin}
-                        user_id={this.props.location.state.user_id}
+                        admin={isAdmin}
+                        user_id={currentUser}
                     />
                 ))}
             </div>);
@@ -86,8 +93,8 @@ class GamePage extends Component {
     render() {
         return (
             <React.Fragment>
-                  <NavTabs game_id={this.state.game_id} game_name={this.state.game_name} secret={this.state.secret} />
-                <h1 className="title-1 loginTitle" style={{textAlign: 'center'}}>Game List</h1>
+                <NavTabs game_id={this.state.game_id} game_name={this.state.game_name} secret={this.state.secret} />
+                <h1 className="title-1 loginTitle" style={{ textAlign: 'center' }}>Game List</h1>
                 {this.checkForEmpty()}
                 <form onSubmit={this.handleSubmit}>
                     <Container id="secretForm" fluid>

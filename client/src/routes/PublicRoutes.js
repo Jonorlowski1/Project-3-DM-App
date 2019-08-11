@@ -15,7 +15,7 @@ const PublicRoutes = ({match}) => (
    component={CreateUserPage} 
   />
   <Route 
-   path={`${match.path}`}
+   path='/'
    exact component={LoginPage} 
   />
 </div>

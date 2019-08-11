@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 
-export const PrivateRoute = ({ component: Component, roles, ...rest }) => (
+const PrivateRoute = ({ component: Component, roles, ...rest }) => (
     <Route {...rest} render={props => {
         const currentUser = JSON.parse(localStorage.getItem("user_id"));
         if (!currentUser) {
@@ -19,3 +19,5 @@ export const PrivateRoute = ({ component: Component, roles, ...rest }) => (
         return <Component {...props} />
     }} />
 )
+
+export default PrivateRoute;

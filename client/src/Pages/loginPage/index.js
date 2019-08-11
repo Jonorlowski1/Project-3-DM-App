@@ -6,8 +6,6 @@ import './index.css';
 import { Link } from "react-router-dom";
 import MyButton from '../../components/buttons';
 
-const user = 
-
 class LoginPage extends Component {
   constructor(props) {
     super(props);
