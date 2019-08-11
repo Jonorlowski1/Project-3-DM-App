@@ -9,6 +9,8 @@ import 'react-image-picker/dist/index.css'
 import MyButton from '../../components/buttons'
 
 const imageList = images;
+const currentUser = JSON.parse(localStorage.getItem("user_id"));
+const isAdmin = JSON.parse(localStorage.getItem("isAdmin"));
 
 class CreateCharacterPage extends Component {
     constructor(props) {
@@ -91,14 +93,14 @@ class CreateCharacterPage extends Component {
     }
 
     checkForAdmin = () => {
-        if (this.props.location.state.admin) {
+        if (isAdmin) {
             return <Redirect to={{
                 pathname: '/initadmin',
                 state: {
                     game_id: this.state.game_id,
                     secret: this.props.location.state.secret,
                     game_name: this.props.location.state.game_name,
-                    admin: this.props.location.state.admin
+                    admin: isAdmin
                 }
             }} />
         }
@@ -123,7 +125,7 @@ class CreateCharacterPage extends Component {
                         game_id: this.state.game_id,
                         secret: this.props.location.state.secret,
                         game_name: this.props.location.state.game_name,
-                        admin: this.props.location.state.admin
+                        admin: isAdmin
                     }
                 }} />
             }

@@ -5,6 +5,9 @@ import { Form, Container, Heading } from 'react-bulma-components';
 import './index.css';
 import MyButton from '../../components/buttons';
 
+const currentUser = JSON.parse(localStorage.getItem("user_id"));
+const isAdmin = JSON.parse(localStorage.getItem("isAdmin"));
+
 class CreateGamePage extends Component {
     constructor(props) {
         super(props);
@@ -14,6 +17,9 @@ class CreateGamePage extends Component {
             createSuccess: false,
             secret: ''
         };
+        if (!currentUser) {
+            this.props.history.push('/');
+        }
         this.handleCreate = this.handleCreate.bind(this);
     }
     validateForm() {
@@ -33,7 +39,7 @@ class CreateGamePage extends Component {
             const response = await axios.post('api/v1/games', {
                 name: this.state.name,
                 secret: secret,
-                user_id: this.props.location.state.user_id
+                user_id: currentUser
             });
             if (response.data) {
                 this.setState({
@@ -58,8 +64,8 @@ class CreateGamePage extends Component {
                     game_id: this.state.game_id,
                     secret: this.state.secret,
                     game_name: this.state.name,
-                    admin: this.props.location.state.admin,
-                    user_id: this.props.location.state.user_id
+                    admin: isAdmin,
+                    user_id: currentUser
                 }
             }}
             />

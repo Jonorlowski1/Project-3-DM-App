@@ -5,6 +5,9 @@ import { Form, Container } from 'react-bulma-components';
 import './index.css';
 import MyButton from '../../components/buttons'
 
+const currentUser = JSON.parse(localStorage.getItem("user_id"));
+const isAdmin = JSON.parse(localStorage.getItem("isAdmin"));
+
 class CreateUserPage extends Component {
     constructor(props) {
         super(props);

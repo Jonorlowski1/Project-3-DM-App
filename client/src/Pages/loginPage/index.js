@@ -19,9 +19,10 @@ class LoginPage extends Component {
 
     if (JSON.parse(localStorage.getItem("user_id"))) {
       this.props.history.push('/game');
-    }
+    } else {
 
     this.handleLogin = this.handleLogin.bind(this);
+    }
   };
 
   validateForm() {
