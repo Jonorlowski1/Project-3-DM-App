@@ -1,40 +1,21 @@
 import React from 'react';
-import { Route } from "react-router-dom";
-import InitPage from '../Pages/initPage';
-import InitAdminPage from '../Pages/initAdminPage';
-import HuePage from '../Pages/huePage';
-import GamePage from '../Pages/gamePage';
-import CreateGamePage from '../Pages/createGamePage';
-import CreateCharacterPage from '../Pages/createCharacterPage';
+import { Route, Redirect } from 'react-router-dom';
 
-const PrivateRoutes = ({match}) => (
-<div>
-  <Route
-   path={`${match.path}init`}
-   component={InitPage} 
-  />
-  <Route
-   path={`${match.path}initadmin`} 
-   component={InitAdminPage} 
-  />
-  <Route 
-   path={`${match.path}hue`}
-   exact component={HuePage} 
-  />
-  <Route 
-   path={`${match.path}`}
-   exact component={GamePage} 
-  />
-  <Route 
-   path={`${match.path}creategame`}
-   exact component={CreateGamePage} 
-  />
-  <Route 
-   path={`${match.path}createcharacter`}
-   exact component={CreateCharacterPage} 
-  />
-  
-</div>
-);
+export const PrivateRoute = ({ component: Component, roles, ...rest }) => (
+    <Route {...rest} render={props => {
+        const currentUser = JSON.parse(localStorage.getItem("user_id"));
+        if (!currentUser) {
+            // not logged in so redirect to login page with the return url
+            return <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
+        }
 
-export default PrivateRoutes;
+        // check if route is restricted by role
+        if (roles && roles.indexOf(currentUser.role) === -1) {
+            // role not authorised so redirect to home page
+            return <Redirect to={{ pathname: '/'}} />
+        }
+
+        // authorised so return component
+        return <Component {...props} />
+    }} />
+)

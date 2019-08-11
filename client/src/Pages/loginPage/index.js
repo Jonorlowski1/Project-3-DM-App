@@ -6,6 +6,8 @@ import './index.css';
 import { Link } from "react-router-dom";
 import MyButton from '../../components/buttons';
 
+const user = 
+
 class LoginPage extends Component {
   constructor(props) {
     super(props);
@@ -16,6 +18,10 @@ class LoginPage extends Component {
       admin: false,
       user_id: null
     };
+
+    if (JSON.parse(localStorage.getItem("user_id"))) {
+      this.props.history.push('/game');
+    }
 
     this.handleLogin = this.handleLogin.bind(this);
   };
