@@ -128,8 +128,7 @@ class InitPage extends Component {
     render() {
         return (
             <React.Fragment id="initPageContainer">
-                <Heading className="title-1 title-2" size={2}>Game: {this.props.location.state.game_name}</Heading>
-                <Heading className="title-2" size={3}>Secret: {this.props.location.state.secret}</Heading>
+                <Heading className="title-1 title-2" size={2}>{this.props.location.state.game_name}</Heading>
                 <div >
                     {this.state.characterList.map(character => (
                         <InitCard
