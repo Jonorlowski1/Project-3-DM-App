@@ -7,21 +7,23 @@ import MyButton from '../../components/buttons';
 import NavTabs from '../../components/navTabs';
 import './index.css';
 
-const currentUser = JSON.parse(localStorage.getItem("user_id"));
-const isAdmin = JSON.parse(localStorage.getItem("isAdmin"));
-
 class GamePage extends Component {
     state = {
         gameList: [],
-        gameKey: ''
+        gameKey: '',
+        currentUser: null,
+        isAdmin: false
     }
 
     componentDidMount() {
+        const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+        const isAdmin = JSON.parse(localStorage.getItem("isAdmin"));
+        this.setState({ currentUser, isAdmin })
         if (!currentUser) {
             this.props.history.push('/');
-        }
-
+        } else {
         this.loadGames();
+        }
     }
 
     handleChange = event => {
@@ -32,9 +34,12 @@ class GamePage extends Component {
     }
 
     loadGames = () => {
+        const { currentUser } = this.state;
+        console.log(currentUser)
         axios.get('/api/v1/games/' + currentUser)
             .then(res => {
                 let gameList = res.data;
+                console.log(gameList)
                 if (gameList !== this.state.gameList) {
                     this.setState({ gameList, gameKey: '' });
                 }
@@ -42,8 +47,8 @@ class GamePage extends Component {
     };
 
     checkForAdmin = () => {
-        let admin = isAdmin;
-        if (admin) {
+        const { isAdmin, currentUser } = this.state;
+        if (isAdmin) {
             return (
                 <Link to={{
                     pathname: '/creategame',
@@ -60,6 +65,7 @@ class GamePage extends Component {
     }
 
     bindGame = (event) => {
+        const { currentUser } = this.state;
         event.preventDefault();
         axios.post('/api/v1/games/' + currentUser, {
             secret: this.state.gameKey,
@@ -69,6 +75,7 @@ class GamePage extends Component {
     }
 
     checkForEmpty = () => {
+        const { isAdmin, currentUser } = this.state;
         if (this.state.gameList.length === 0) {
             return (<div><Heading className="title-1 title-2" size={3}>It doesn't look like you are current playing in any games.</Heading>
                 <Heading className="title-1 title-2" size={5}>Use the form below to join a game that your DM has already created</Heading><br />

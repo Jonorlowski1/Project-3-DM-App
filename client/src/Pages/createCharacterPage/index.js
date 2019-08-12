@@ -9,8 +9,6 @@ import 'react-image-picker/dist/index.css'
 import MyButton from '../../components/buttons'
 
 const imageList = images;
-const currentUser = JSON.parse(localStorage.getItem("user_id"));
-const isAdmin = JSON.parse(localStorage.getItem("isAdmin"));
 
 class CreateCharacterPage extends Component {
     constructor(props) {
@@ -28,6 +26,8 @@ class CreateCharacterPage extends Component {
             wisdom: '',
             charisma: '',
             isMonster: false,
+            currentUser: null,
+            isAdmin: false
         };
         this.onPick = this.onPick.bind(this)
         this.handleLogin = this.handleLogin.bind(this);
@@ -36,6 +36,9 @@ class CreateCharacterPage extends Component {
     componentDidMount() {
         this.loadGameId();
         window.scrollTo(0, 0);
+        const currentUser = JSON.parse(localStorage.getItem("user_id"));
+        const isAdmin = JSON.parse(localStorage.getItem("isAdmin"));
+        this.setState({ currentUser, isAdmin })
     }
 
     onPick(image) {
@@ -93,14 +96,14 @@ class CreateCharacterPage extends Component {
     }
 
     checkForAdmin = () => {
-        if (isAdmin) {
+        if (this.state.isAdmin) {
             return <Redirect to={{
                 pathname: '/initadmin',
                 state: {
                     game_id: this.state.game_id,
                     secret: this.props.location.state.secret,
                     game_name: this.props.location.state.game_name,
-                    admin: isAdmin
+                    admin: this.state.isAdmin
                 }
             }} />
         }
@@ -125,7 +128,7 @@ class CreateCharacterPage extends Component {
                         game_id: this.state.game_id,
                         secret: this.props.location.state.secret,
                         game_name: this.props.location.state.game_name,
-                        admin: isAdmin
+                        admin: this.state.isAdmin
                     }
                 }} />
             }

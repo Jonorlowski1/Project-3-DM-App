@@ -13,11 +13,11 @@ class LoginPage extends Component {
       email: '',
       password: '',
       loginSuccess: false,
-      admin: false,
-      user_id: null
+      isAdmin: false,
+      currentUser: null
     };
 
-    if (JSON.parse(localStorage.getItem("user_id"))) {
+    if (JSON.parse(localStorage.getItem("currentUser"))) {
       this.props.history.push('/game');
     } else {
 
@@ -45,13 +45,13 @@ class LoginPage extends Component {
         password: this.state.password
       });
       if (response.data) {
-        const admin = response.data.admin;
-        const user_id = response.data.id;
-        localStorage.setItem("isAdmin", JSON.stringify(admin));
-        localStorage.setItem("user_id", JSON.stringify(user_id));
+        const isAdmin = response.data.admin;
+        const currentUser = response.data.id;
+        localStorage.setItem("isAdmin", JSON.stringify(isAdmin));
+        localStorage.setItem("currentUser", JSON.stringify(currentUser));
         this.setState({
-          admin,
-          user_id,
+          isAdmin,
+          currentUser,
           loginSuccess: true
         });
       }
@@ -64,14 +64,9 @@ class LoginPage extends Component {
   };
 
   render() {
+    const { currentUser, isAdmin } = this.state;
     if (this.state.loginSuccess) {
-      return <Redirect to={{
-        pathname: '/game',
-        state: {
-          user_id: this.state.user_id,
-          admin: this.state.admin,
-        }
-      }} />
+      return <Redirect to={'/game'} />
     }
     // else if (this.state.loginSuccess) {
     //   return <Redirect to='/game' />

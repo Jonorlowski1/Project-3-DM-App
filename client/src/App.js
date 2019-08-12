@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import history from './_helpers/history';
+import Role from './_helpers/role';
 import './App.css';
 import 'react-bulma-components/dist/react-bulma-components.min.css';
 import PublicRoutes from './routes/PublicRoutes.js';
@@ -15,25 +17,26 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 class App extends Component {
 
   state = {
-    admin: false,
-    user_id: null
+    isAdmin: false,
+    currentUser: null
   }
 
   componentDidMount = async () => {
-    const admin = await JSON.parse(localStorage.getItem("isAdmin"));
-    const user_id = await JSON.parse(localStorage.getItem("user_id"));
-    this.setState({ admin, user_id });
+    const isAdmin = await JSON.parse(localStorage.getItem("isAdmin"));
+    const currentUser = await JSON.parse(localStorage.getItem("currentUser"));
+    this.setState({ isAdmin: currentUser && isAdmin === Role.Admin, currentUser });
   }
 
   render() {
+    const { currentUser, isAdmin } = this.state;
     return (
-      <Router>
+      <Router history={history}>
         <React.Fragment>
           <Switch>
             <PrivateRoute path="/game" component={GamePage} />
             <PrivateRoute path="/init" component={InitPage} />
-            <PrivateRoute roles={this.state.admin} path="/initadmin" component={InitAdminPage} />
-            <PrivateRoute roles={this.state.admin} path="/hue" component={HuePage} />
+            <PrivateRoute roles={[Role.Admin]} path="/initadmin" component={InitAdminPage} />
+            <PrivateRoute roles={[Role.Admin]} path="/hue" component={HuePage} />
             <PrivateRoute path="/creategame" component={CreateGamePage} />
             <PrivateRoute path="/createcharacter" component={CreateCharacterPage} />
             <Route path="/" component={PublicRoutes} />
