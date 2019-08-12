@@ -2,24 +2,24 @@ import React, { Component } from 'react'
 import EdiText from 'react-editext'
 import "./index.css"
 
-export default class Health extends Component {
+export default class EditField extends Component {
     // EdiText onSave is called with an argument of the new value
-    onSave = val => {
-        this.props.editChar({
-            ...this.props.character,
-            hit_points: parseInt(val)
-        });
+    onSave = (val, field) => {
+        let updateChar = { ...this.props.character };
+        field = this.props.field;
+        updateChar[field] = parseInt(val);
+        this.props.editChar(updateChar);
     }
 
     render() {
         return (
             <EdiText
                 type='number'
-                value={this.props.health.toString()}
-                key={this.props.health}
+                value={this.props.value}
+                key={this.props.keyVal}
                 onSave={this.onSave}
                 buttonsAlign='before'
-                editButtonContent={<img alt="heart" src="/images/heart.png" />}
+                editButtonContent={this.props.ebc}
                 editButtonClassName="icon"
             />
         )

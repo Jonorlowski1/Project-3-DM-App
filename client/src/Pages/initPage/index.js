@@ -127,7 +127,7 @@ class InitPage extends Component {
 
     render() {
         return (
-            <React.Fragment id="initPageContainer">
+            <div id="initPageContainer">
                 <Heading className="title-1 title-2" size={2}>{this.props.location.state.game_name}</Heading>
                 <div >
                     {this.state.characterList.map(character => (
@@ -169,7 +169,7 @@ class InitPage extends Component {
                     </Link>
                 </Container>
                 <div id="newCharButton"></div>
-            </React.Fragment>
+            </div>
         )
     }
 }
