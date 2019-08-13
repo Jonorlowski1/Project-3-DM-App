@@ -3,6 +3,7 @@ import { Card, Media, Image, Content, Columns } from 'react-bulma-components';
 import './index.css';
 import MyButton from '../buttons'
 import EditField from 'components/editField';
+import Name from '../name/index';
 
 const InitCard = (props) => {
 
@@ -14,6 +15,15 @@ const InitCard = (props) => {
     }
     else {
       return null;
+    }
+  }
+
+  const charRename = () => {
+    if (!props.isMonster) {
+      return (<Name {...props} />);
+    }
+    else {
+      return (props.name);
     }
   }
 
@@ -62,7 +72,7 @@ const InitCard = (props) => {
                 <Image size={64} alt={props.name} src={props.image} />
               </Media.Item>
               <Media.Item>
-                <h2 className="character-names" size={3}>{props.name}</h2>
+                <h2 className="character-names" size={3}>{charRename()}</h2>
               </Media.Item>
             </Media>
             <Content>
