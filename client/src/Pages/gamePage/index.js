@@ -5,11 +5,40 @@ import { Form, Container, Heading } from 'react-bulma-components';
 import { Link } from "react-router-dom";
 import MyButton from '../../components/buttons';
 import './index.css';
+import Modal from 'react-modal';
+
+
+Modal.setAppElement('#root');
+const customStyles = {
+    content: {
+        top: '50%',
+        left: '50%',
+        right: 'auto',
+        bottom: 'auto',
+        marginRight: '-50%',
+        transform: 'translate(-50%, -50%)'
+    }
+};
 
 class GamePage extends Component {
-    state = {
-        gameList: [],
-        gameKey: ''
+    constructor(props) {
+        super(props);
+        this.state = {
+            gameList: [],
+            gameKey: '',
+            modalIsOpen: false
+        };
+
+        this.openModal = this.openModal.bind(this);
+        this.closeModal = this.closeModal.bind(this);
+    };
+
+    openModal() {
+        this.setState({ modalIsOpen: true });
+    }
+
+    closeModal() {
+        this.setState({ modalIsOpen: false });
     }
 
     componentDidMount() {
@@ -51,13 +80,28 @@ class GamePage extends Component {
         else return null;
     }
 
-    bindGame = (event) => {
+    bindGame = async (event) => {
         event.preventDefault();
-        axios.post('/api/v1/games/' + this.props.location.state.user_id, {
-            secret: this.state.gameKey,
-        }).then(res => {
-            this.loadGames();
-        });
+        try {
+            const response = await axios.post('/api/v1/games/' + this.props.location.state.user_id, {
+                secret: this.state.gameKey,
+            });
+            if (response) {
+                this.loadGames();
+            }
+        }
+        catch (err) {
+            if (err) {
+                this.openModal();
+            }
+        }
+        // axios.post('/api/v1/games/' + this.props.location.state.user_id, {
+        //     secret: this.state.gameKey,
+        // }).then(res => {
+        //     console.log(res);
+
+        // });
+
     }
 
     checkForEmpty = () => {
@@ -85,7 +129,7 @@ class GamePage extends Component {
     render() {
         return (
             <React.Fragment>
-                <h1 className="title-1 loginTitle" style={{textAlign: 'center'}}>Game List</h1>
+                <h1 className="title-1 loginTitle" style={{ textAlign: 'center' }}>Game List</h1>
                 {this.checkForEmpty()}
                 <form onSubmit={this.handleSubmit}>
                     <Container id="secretForm" fluid>
@@ -112,6 +156,25 @@ class GamePage extends Component {
                         </div>
                     </Container>
                 </form>
+
+                <Modal
+                    isOpen={this.state.modalIsOpen}
+                    onRequestClose={this.closeModal}
+                    style={customStyles}
+                    contentLabel="Failed Game Bind"
+                >
+                    <h2 className="title-2">Game not found - incorrect secret.</h2>
+                    <h2 className="title-2">Please check with your DM again for the correct secret.</h2>
+                    <Container id="buttons" fluid>
+                        <MyButton
+                            text="Close"
+                            primary={true}
+                            type="submit"
+                            onClick={this.closeModal}
+                        />
+                    </Container>
+                </Modal>
+
             </React.Fragment>
         )
     }
