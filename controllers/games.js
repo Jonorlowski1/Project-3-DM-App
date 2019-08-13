@@ -41,7 +41,17 @@ const removeGame = async (req, res) => {
   }
 }
 
+const deleteGame = async (req, res) => {
+  try {
+    res.json(await db.Games.destroy({ include: [{ model: db.Characters }], where: { id: req.params.id } }));
+  }
+  catch (error) {
+    res.status(500).send(error);
+  }
+}
+
 exports.create = create;
 exports.findAll = findAll;
 exports.bindGame = bindGame;
 exports.removeGame = removeGame;
+exports.deleteGame = deleteGame;

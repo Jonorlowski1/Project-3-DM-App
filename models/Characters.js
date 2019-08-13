@@ -75,6 +75,7 @@ module.exports = (sequelize, DataTypes) => {
   Characters.associate = (models) => {
     models.Characters.belongsTo(models.Games, {
       foreignKey: 'game_id',
+      onDelete: 'CASCADE',
     });
   };
 

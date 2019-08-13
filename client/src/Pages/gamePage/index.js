@@ -26,11 +26,15 @@ class GamePage extends Component {
         this.state = {
             gameList: [],
             gameKey: '',
-            modalIsOpen: false
+            modalIsOpen: false,
+            secondModalIsOpen: false,
+            deleteId: ''
         };
 
         this.openModal = this.openModal.bind(this);
         this.closeModal = this.closeModal.bind(this);
+        this.openSecondModal = this.openSecondModal.bind(this);
+        this.closeSecondModal = this.closeSecondModal.bind(this);
     };
 
     openModal() {
@@ -40,6 +44,14 @@ class GamePage extends Component {
     closeModal() {
         this.setState({ modalIsOpen: false });
     }
+
+    openSecondModal = (id) => {
+        this.setState({ secondModalIsOpen: true, deleteId: id });
+    };
+
+    closeSecondModal = () => {
+        this.setState({ secondModalIsOpen: false });
+    };
 
     componentDidMount() {
         this.loadGames();
@@ -99,11 +111,32 @@ class GamePage extends Component {
     }
 
     removeGame = async (id, secretId) => {
+        if (this.props.location.state.admin) {
+            this.openSecondModal(id);
+        }
+        else {
+            try {
+                const response = await axios.put('/api/v1/games/' + id, { secret: secretId });
+                if (response) {
+                    this.loadGames();
+                }
+            }
+            catch (err) {
+                if (err) {
+                    console.log(err);
+                }
+            }
+        }
+    }
+
+    deleteGame = async (id) => {
+        console.log(id)
         try {
-            console.log(secretId);
-            const response = await axios.delete('/api/v1/games/' + id, { data: { secret: secretId } });
+            const response = await axios.delete('/api/v1/games/' + id);
+            console.log(response);
             if (response) {
                 this.loadGames();
+                this.closeSecondModal();
             }
         }
         catch (err) {
@@ -181,6 +214,29 @@ class GamePage extends Component {
                             primary={true}
                             type="submit"
                             onClick={this.closeModal}
+                        />
+                    </Container>
+                </Modal>
+                <Modal
+                    isOpen={this.state.secondModalIsOpen}
+                    onRequestClose={this.closeSecondModal}
+                    style={customStyles}
+                    contentLabel="Confirm Game Delete"
+                >
+                    <h2 className="title-2">Are you sure you want to delete this game?</h2>
+                    <h2 className="title-2">This will delete the game for all players as well.</h2>
+                    <Container id="buttons" fluid>
+                        <MyButton
+                            text="Yes"
+                            primary={true}
+                            type="submit"
+                            onClick={() => (this.deleteGame(this.state.deleteId))}
+                        />
+                        <MyButton
+                            text="No"
+                            primary={true}
+                            type="submit"
+                            onClick={this.closeSecondModal}
                         />
                     </Container>
                 </Modal>
