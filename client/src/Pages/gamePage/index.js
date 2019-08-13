@@ -93,15 +93,24 @@ class GamePage extends Component {
         catch (err) {
             if (err) {
                 this.openModal();
+                this.setState({ gameKey: '' });
             }
         }
-        // axios.post('/api/v1/games/' + this.props.location.state.user_id, {
-        //     secret: this.state.gameKey,
-        // }).then(res => {
-        //     console.log(res);
+    }
 
-        // });
-
+    removeGame = async (id, secretId) => {
+        try {
+            console.log(secretId);
+            const response = await axios.delete('/api/v1/games/' + id, { data: { secret: secretId } });
+            if (response) {
+                this.loadGames();
+            }
+        }
+        catch (err) {
+            if (err) {
+                console.log(err);
+            }
+        }
     }
 
     checkForEmpty = () => {
@@ -120,6 +129,7 @@ class GamePage extends Component {
                         secret={game.secret}
                         admin={this.props.location.state.admin}
                         user_id={this.props.location.state.user_id}
+                        removeGame={this.removeGame}
                     />
                 ))}
             </div>);

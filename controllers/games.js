@@ -32,6 +32,16 @@ const bindGame = async (req, res) => {
   }
 }
 
+const removeGame = async (req, res) => {
+  try {
+    console.log(req.body);
+    res.json(await db.Games.findOne({ where: { secret: req.body.secret } }).then((game) => { game.removeUsers(req.params.id); }));
+  } catch (error) {
+    res.status(500).send(error);
+  }
+}
+
 exports.create = create;
 exports.findAll = findAll;
 exports.bindGame = bindGame;
+exports.removeGame = removeGame;

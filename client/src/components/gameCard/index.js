@@ -19,7 +19,8 @@ const GameCard = (props) => {
                     <MyButton static={true} text="Join Game" primary={true}>
                     </MyButton>
                 </Link>
-            </Card.Footer.Item>)
+            </Card.Footer.Item>
+            )
         }
         else {
             return ((<Card.Footer.Item>
@@ -53,6 +54,9 @@ const GameCard = (props) => {
             </Card.Content>
             <Card.Footer>
                 {checkForAdmin()}
+                <Card.Footer.Item>
+                    <MyButton primary={false} text="Remove Game" onClick={() => props.removeGame(props.user_id, props.secret)}></MyButton>
+                </Card.Footer.Item>
             </Card.Footer>
         </Card>
     );
