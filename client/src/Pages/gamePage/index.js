@@ -17,15 +17,7 @@ class GamePage extends Component {
     }
 
     componentDidMount() {
-        const { currentUser } = this.props.location.state;
-        // const currentUser = JSON.parse(localStorage.getItem("currentUser"));
-        // const isAdmin = JSON.parse(localStorage.getItem("isAdmin"));
-        // this.setState({ currentUser, isAdmin })
-        if (!currentUser) {
-            this.props.history.push('/');
-        } else {
-            this.loadGames();
-        }
+        this.loadGames();
     }
 
     handleChange = event => {

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import history from './_helpers/history';
 import Role from './_helpers/role';
 import './App.css';
 import 'react-bulma-components/dist/react-bulma-components.min.css';
@@ -13,7 +12,6 @@ import CreateGamePage from './Pages/createGamePage';
 import CreateCharacterPage from './Pages/createCharacterPage';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import NavTabs from 'components/navTabs';
-import { userInfo } from 'os';
 
 class App extends Component {
   constructor(props) {
@@ -35,15 +33,6 @@ class App extends Component {
     } else if (currentUser !== '') {
       this.setState({ role: Role.User })
     }
-    // const role = [Role.Admin]
-    // const roles = [Role.Admin]
-    // if (roles && roles.indexOf(role) === null) {
-    //   // role not authorised so redirect to home page
-    //   console.log('invalid')
-    // } else {
-    // console.log('valid')
-    // }
-
   }
 
   render() {
