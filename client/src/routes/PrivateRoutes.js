@@ -3,14 +3,14 @@ import { Route, Redirect } from 'react-router-dom';
 
 const PrivateRoute = ({ component: Component, roles, ...rest }) => (
     <Route {...rest} render={props => {
-        const currentUser = JSON.parse(localStorage.getItem("currentUser"));
-        if (!currentUser) {
+        const { role } = props.location;
+        if (role === null) {
             // not logged in so redirect to login page with the return url
             return <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
         }
 
         // check if route is restricted by role
-        if (roles && roles.indexOf(currentUser.role) === -1) {
+        if (roles && roles.indexOf(role) === -1) {
             // role not authorised so redirect to home page
             return <Redirect to={{ pathname: '/'}} />
         }

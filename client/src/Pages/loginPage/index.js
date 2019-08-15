@@ -16,13 +16,20 @@ class LoginPage extends Component {
       isAdmin: false,
       currentUser: null
     };
+    // const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+    // const isAdmin = JSON.parse(localStorage.getItem("isAdmin"));
+    // if (currentUser) {
+    //   return <Redirect to={{
+    //     pathname: '/game',
+    //     state: {
+    //       currentUser: currentUser,
+    //       isAdmin: isAdmin
+    //     }
+    //   }} />
+    // } else {
+      this.handleLogin = this.handleLogin.bind(this);
+    // }
 
-    if (JSON.parse(localStorage.getItem("currentUser"))) {
-      this.props.history.push('/game');
-    } else {
-
-    this.handleLogin = this.handleLogin.bind(this);
-    }
   };
 
   validateForm() {
@@ -37,7 +44,6 @@ class LoginPage extends Component {
 
   async handleLogin(event) {
     event.preventDefault();
-
 
     try {
       const response = await axios.post('api/v1/auth/login', {
@@ -64,9 +70,14 @@ class LoginPage extends Component {
   };
 
   render() {
-    const { currentUser, isAdmin } = this.state;
     if (this.state.loginSuccess) {
-      return <Redirect to={'/game'} />
+      return <Redirect to={{
+        pathname: '/game',
+        state: {
+          currentUser: this.state.currentUser,
+          isAdmin: this.state.isAdmin
+        }
+      }} />
     }
     // else if (this.state.loginSuccess) {
     //   return <Redirect to='/game' />

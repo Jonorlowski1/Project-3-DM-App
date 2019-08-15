@@ -8,21 +8,23 @@ import NavTabs from '../../components/navTabs';
 import './index.css';
 
 class GamePage extends Component {
-    state = {
-        gameList: [],
-        gameKey: '',
-        currentUser: null,
-        isAdmin: false
+    constructor(props) {
+        super(props);
+        this.state = {
+            gameList: [],
+            gameKey: ''
+        }
     }
 
     componentDidMount() {
-        const currentUser = JSON.parse(localStorage.getItem("currentUser"));
-        const isAdmin = JSON.parse(localStorage.getItem("isAdmin"));
-        this.setState({ currentUser, isAdmin })
+        const { currentUser } = this.props.location.state;
+        // const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+        // const isAdmin = JSON.parse(localStorage.getItem("isAdmin"));
+        // this.setState({ currentUser, isAdmin })
         if (!currentUser) {
             this.props.history.push('/');
         } else {
-        this.loadGames();
+            this.loadGames();
         }
     }
 
@@ -34,7 +36,7 @@ class GamePage extends Component {
     }
 
     loadGames = () => {
-        const { currentUser } = this.state;
+        const { currentUser } = this.props.location.state;
         console.log(currentUser)
         axios.get('/api/v1/games/' + currentUser)
             .then(res => {
@@ -47,7 +49,7 @@ class GamePage extends Component {
     };
 
     checkForAdmin = () => {
-        const { isAdmin, currentUser } = this.state;
+        const { isAdmin, currentUser } = this.props.location.state;
         if (isAdmin) {
             return (
                 <Link to={{
@@ -65,7 +67,7 @@ class GamePage extends Component {
     }
 
     bindGame = (event) => {
-        const { currentUser } = this.state;
+        const { currentUser } = this.props.location.state;
         event.preventDefault();
         axios.post('/api/v1/games/' + currentUser, {
             secret: this.state.gameKey,
@@ -75,7 +77,7 @@ class GamePage extends Component {
     }
 
     checkForEmpty = () => {
-        const { isAdmin, currentUser } = this.state;
+        const { isAdmin, currentUser } = this.props.location.state;
         if (this.state.gameList.length === 0) {
             return (<div><Heading className="title-1 title-2" size={3}>It doesn't look like you are current playing in any games.</Heading>
                 <Heading className="title-1 title-2" size={5}>Use the form below to join a game that your DM has already created</Heading><br />
@@ -100,7 +102,7 @@ class GamePage extends Component {
     render() {
         return (
             <React.Fragment>
-                <NavTabs game_id={this.state.game_id} game_name={this.state.game_name} secret={this.state.secret} />
+
                 <h1 className="title-1 loginTitle" style={{ textAlign: 'center' }}>Game List</h1>
                 {this.checkForEmpty()}
                 <form onSubmit={this.handleSubmit}>
