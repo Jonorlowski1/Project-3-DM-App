@@ -11,16 +11,17 @@ import HuePage from './Pages/huePage';
 import GamePage from './Pages/gamePage';
 import CreateGamePage from './Pages/createGamePage';
 import CreateCharacterPage from './Pages/createCharacterPage';
-import { Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import NavTabs from 'components/navTabs';
 import { userInfo } from 'os';
-
 
 class App extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
+      isAdmin: false,
+      currentUser: null,
       role: null
     };
   }
@@ -28,13 +29,16 @@ class App extends Component {
   componentDidMount = () => {
     const isAdmin = JSON.parse(localStorage.getItem("isAdmin"));
     const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+    this.setState({ isAdmin, currentUser })
     console.log(currentUser);
     console.log(isAdmin)
     if (currentUser !== '' && isAdmin) {
-      this.setState({ role: [Role.Admin] })
+      this.setState({ role: Role.Admin })
     } else if (currentUser !== '') {
-      this.setState({ role: [Role.User] })
+      this.setState({ role: Role.User })
     }
+
+    console.log(Role.Admin)
     // const role = [Role.Admin]
     // const roles = [Role.Admin]
     // if (roles && roles.indexOf(role) === null) {
@@ -48,17 +52,13 @@ class App extends Component {
 
   render() {
     const { currentUser, isAdmin } = this.state;
-    const childProps = {
-      isAdmin: isAdmin,
-      currentUser: currentUser
-    };
     return (
-      <Router history={history}>
+      <Router>
         {/* {isAdmin}
         <NavTabs></NavTabs> */}
         <React.Fragment>
           <Switch>
-            <PrivateRoute roles={[Role.Admin]} path="/game" component={GamePage} />
+            <PrivateRoute roles={[Role.Admin]} comparison={this.state.role} path="/game" component={GamePage} />
             <PrivateRoute roles={[Role.User]} path="/init" component={InitPage} />
             <PrivateRoute roles={[Role.Admin]} path="/initadmin" component={InitAdminPage} />
             <PrivateRoute roles={[Role.Admin]} path="/hue" component={HuePage} />
