@@ -27,10 +27,41 @@ class LoginPage extends Component {
     //     }
     //   }} />
     // } else {
-      this.handleLogin = this.handleLogin.bind(this);
+    const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+    const isAdmin = JSON.parse(localStorage.getItem("isAdmin"));
+    if (currentUser) {
+      this.props.history.push({
+        pathname: '/game',
+        state: {
+          currentUser: currentUser,
+          isAdmin: isAdmin
+        }
+      });
+    }
+    this.handleLogin = this.handleLogin.bind(this);
     // }
 
   };
+
+  // componentDidMount = () => {
+  //   this.checkForSession();
+  // }
+
+  // checkForSession = () => {
+  //   const currentUser = JSON.parse(localStorage.getItem("currentUser"))
+  //   const isAdmin = JSON.parse(localStorage.getItem("isAdmin"));
+  //   console.log(currentUser)
+  //   console.log(isAdmin)
+  //   if (currentUser > 0) {
+  //     return <Redirect to={{
+  //       pathname: '/game',
+  //       state: {
+  //         currentUser: currentUser,
+  //         isAdmin: isAdmin
+  //       }
+  //     }} />
+  //   }
+  // }
 
   validateForm() {
     return this.state.email.length > 0 && this.state.password.length > 0;

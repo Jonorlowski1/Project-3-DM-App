@@ -30,15 +30,11 @@ class App extends Component {
     const isAdmin = JSON.parse(localStorage.getItem("isAdmin"));
     const currentUser = JSON.parse(localStorage.getItem("currentUser"));
     this.setState({ isAdmin, currentUser })
-    console.log(currentUser);
-    console.log(isAdmin)
     if (currentUser !== '' && isAdmin) {
       this.setState({ role: Role.Admin })
     } else if (currentUser !== '') {
       this.setState({ role: Role.User })
     }
-
-    console.log(Role.Admin)
     // const role = [Role.Admin]
     // const roles = [Role.Admin]
     // if (roles && roles.indexOf(role) === null) {
@@ -58,12 +54,12 @@ class App extends Component {
         <NavTabs></NavTabs> */}
         <React.Fragment>
           <Switch>
-            <PrivateRoute roles={[Role.Admin]} comparison={this.state.role} path="/game" component={GamePage} />
-            <PrivateRoute roles={[Role.User]} path="/init" component={InitPage} />
-            <PrivateRoute roles={[Role.Admin]} path="/initadmin" component={InitAdminPage} />
-            <PrivateRoute roles={[Role.Admin]} path="/hue" component={HuePage} />
-            <PrivateRoute path="/creategame" component={CreateGamePage} />
-            <PrivateRoute path="/createcharacter" component={CreateCharacterPage} />
+            <PrivateRoute roles={[Role.Admin, Role.User]} comparison={this.state.role} path="/game" component={GamePage} />
+            <PrivateRoute roles={[Role.User]} comparison={this.state.role} path="/init" component={InitPage} />
+            <PrivateRoute roles={[Role.Admin]} comparison={this.state.role} path="/initadmin" component={InitAdminPage} />
+            <PrivateRoute roles={[Role.Admin]} comparison={this.state.role} path="/hue" component={HuePage} />
+            <PrivateRoute roles={[Role.Admin, Role.User]} comparison={this.state.role} path="/creategame" component={CreateGamePage} />
+            <PrivateRoute path="/createcharacter" roles={[Role.Admin, Role.User]} comparison={this.state.role} component={CreateCharacterPage} />
             <Route path="/" component={PublicRoutes} />
           </Switch>
         </React.Fragment>
