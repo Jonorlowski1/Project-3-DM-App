@@ -1,16 +1,9 @@
 import React from 'react';
-import Initiative from '../initiative/index';
-import Health from '../health/index';
-import ArmorClass from '../armorClass/index';
-import Strength from '../strength/index';
-import Dexterity from '../dexterity/index';
-import Constitution from '../constitution/index';
-import Intelligence from '../intelligence/index';
-import Wisdom from '../wisdom/index';
-import Charisma from '../charisma/index';
 import { Card, Media, Image, Content, Columns } from 'react-bulma-components';
 import './index.css';
 import MyButton from '../buttons'
+import EditField from 'components/editField';
+import Name from '../name/index';
 
 const InitCard = (props) => {
 
@@ -22,6 +15,15 @@ const InitCard = (props) => {
     }
     else {
       return null;
+    }
+  }
+
+  const charRename = () => {
+    if (!props.isMonster) {
+      return (<Name {...props} />);
+    }
+    else {
+      return (props.name);
     }
   }
 
@@ -50,7 +52,7 @@ const InitCard = (props) => {
               </Media.Item>
             </Media>
             <Content>
-            <div className="statHeader" id="monsterInitHeader">Initiative: {props.init}</div>
+              <div className="statHeader" id="monsterInitHeader">Initiative: {props.init}</div>
             </Content>
           </Card.Content>
           {/* <Card.Footer>
@@ -70,28 +72,30 @@ const InitCard = (props) => {
                 <Image size={64} alt={props.name} src={props.image} />
               </Media.Item>
               <Media.Item>
-                <h2 className="character-names" size={3}>{props.name}</h2>
+                <h2 className="character-names" size={3}>{charRename()}</h2>
               </Media.Item>
             </Media>
             <Content>
               <Columns>
                 <div className="init-field-columns">
                   <Columns.Column>
-                    Initiative: <Initiative {...props} /> Armor Class: <ArmorClass {...props} />  Health: <Health {...props} />
+                    Initiative: <EditField field={'initiative'} value={props.init.toString()} keyVal={props.init} ebc={<img alt="roll initiative" src="/images/init.png" />} {...props} />
+                    Armor Class: <EditField field={'armor_class'} value={props.armorClass.toString()} keyVal={props.armorClass} ebc={<img alt="shield" src="/images/shield.png" />} {...props} />
+                    Health: <EditField field={'hit_points'} value={props.health.toString()} keyVal={props.health} ebc={<img alt="heart" src="/images/heart.png" />} {...props} />
                   </Columns.Column>
                 </div>
-                {/* </Columns> */}
-                {/* <Columns> */}
                 <div className="init-field-columns">
                   <Columns.Column>
-                    Strength: <Strength {...props} /> Dexterity: <Dexterity {...props} /> Constitution: <Constitution {...props} />
+                    Strength: <EditField field={'strength'} value={props.strength.toString()} keyVal={props.strength} ebc={<img alt="lifting weights" src="/images/strength.png" />} {...props} />
+                    Dexterity: <EditField field={'dexterity'} value={props.dexterity.toString()} keyVal={props.dexterity} ebc={<img alt="hand" src="/images/dexterity.png" />} {...props} />
+                    Constitution: <EditField field={'constitution'} value={props.constitution.toString()} keyVal={props.constitution} ebc={<img alt="body" src="/images/constitution.png" />} {...props} />
                   </Columns.Column>
                 </div>
-                {/* </Columns> */}
-                {/* <Columns> */}
                 <div className="init-field-columns">
                   <Columns.Column>
-                    Intelligence: <Intelligence {...props} /> Wisdom: <Wisdom {...props} /> Charisma: <Charisma {...props} />
+                    Intelligence: <EditField field={'intelligence'} value={props.intelligence.toString()} keyVal={props.intelligence} ebc={<img alt="brain" src="/images/intelligence.png" />} {...props} />
+                    Wisdom: <EditField field={'wisdom'} value={props.wisdom.toString()} keyVal={props.wisdom} ebc={<img alt="spellbook" src="/images/wisdom.png" />} {...props} />
+                    Charisma: <EditField field={'charisma'} value={props.charisma.toString()} keyVal={props.charisma} ebc={<img alt="speaker" src="/images/charisma.png" />} {...props} />
                   </Columns.Column>
                 </div>
               </Columns>

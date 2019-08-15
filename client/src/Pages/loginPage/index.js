@@ -5,6 +5,19 @@ import { Form, Container } from 'react-bulma-components';
 import './index.css';
 import { Link } from "react-router-dom";
 import MyButton from '../../components/buttons';
+import Modal from 'react-modal';
+
+Modal.setAppElement('#root');
+const customStyles = {
+  content: {
+    top: '50%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    marginRight: '-50%',
+    transform: 'translate(-50%, -50%)'
+  }
+};
 
 class LoginPage extends Component {
   constructor(props) {
@@ -13,12 +26,37 @@ class LoginPage extends Component {
       email: '',
       password: '',
       loginSuccess: false,
-      admin: false,
-      user_id: null
+      isAdmin: false,
+      currentUser: null,
+      modalIsOpen: false
     };
 
+    this.openModal = this.openModal.bind(this);
+    this.closeModal = this.closeModal.bind(this);
+    
+    const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+    const isAdmin = JSON.parse(localStorage.getItem("isAdmin"));
+    if (currentUser) {
+      this.props.history.push({
+        pathname: '/game',
+        state: {
+          currentUser: currentUser,
+          isAdmin: isAdmin
+        }
+      });
+    }
+    
     this.handleLogin = this.handleLogin.bind(this);
+
   };
+
+  openModal() {
+    this.setState({ modalIsOpen: true });
+  }
+
+  closeModal() {
+    this.setState({ modalIsOpen: false });
+  }
 
   validateForm() {
     return this.state.email.length > 0 && this.state.password.length > 0;
@@ -33,27 +71,25 @@ class LoginPage extends Component {
   async handleLogin(event) {
     event.preventDefault();
 
-
     try {
       const response = await axios.post('api/v1/auth/login', {
         email: this.state.email,
         password: this.state.password
       });
       if (response.data) {
-        const admin = response.data.admin;
-        const user_id = response.data.id;
-        localStorage.setItem("isAdmin", JSON.stringify(admin));
-        localStorage.setItem("user_id", JSON.stringify(user_id));
+        const isAdmin = response.data.admin;
+        const currentUser = response.data.id;
+        localStorage.setItem("isAdmin", JSON.stringify(isAdmin));
+        localStorage.setItem("currentUser", JSON.stringify(currentUser));
         this.setState({
-          admin,
-          user_id,
+          isAdmin,
+          currentUser,
           loginSuccess: true
         });
       }
     } catch (err) {
       if (err) {
-        alert('Login failed, incorrrect e-mail or password');
-        // throw err;
+        this.openModal();
       }
       this.setState({
         loginSuccess: false,
@@ -66,8 +102,8 @@ class LoginPage extends Component {
       return <Redirect to={{
         pathname: '/game',
         state: {
-          user_id: this.state.user_id,
-          admin: this.state.admin,
+          currentUser: this.state.currentUser,
+          isAdmin: this.state.isAdmin
         }
       }} />
     }
@@ -116,6 +152,24 @@ class LoginPage extends Component {
             </Container>
           </div>
         </form>
+
+        <Modal
+          isOpen={this.state.modalIsOpen}
+          onRequestClose={this.closeModal}
+          style={customStyles}
+          contentLabel="Failed Login"
+        >
+          <h2 className="title-2">Login failed, incorrect e-mail or password</h2>
+          <Container id="buttons" fluid>
+            <MyButton
+              text="Close"
+              primary={true}
+              type="submit"
+              onClick={this.closeModal}
+            />
+          </Container>
+        </Modal>
+
       </div >
     );
   };

@@ -26,21 +26,24 @@ class CreateCharacterPage extends Component {
             wisdom: '',
             charisma: '',
             isMonster: false,
+            currentUser: null,
+            isAdmin: false
         };
         this.onPick = this.onPick.bind(this)
-        this.handleLogin = this.handleLogin.bind(this);
+        this.handleCreateCharacter = this.handleCreateCharacter.bind(this);
     }
 
     componentDidMount() {
         this.loadGameId();
         window.scrollTo(0, 0);
+        const currentUser = JSON.parse(localStorage.getItem("user_id"));
+        const isAdmin = JSON.parse(localStorage.getItem("isAdmin"));
+        this.setState({ currentUser, isAdmin })
     }
 
     onPick(image) {
         this.setState({ image })
     }
-
-
 
     validateForm() {
         return this.state.name.length > 0;
@@ -58,7 +61,7 @@ class CreateCharacterPage extends Component {
         this.setState({ game_id });
     }
 
-    async handleLogin(event) {
+    async handleCreateCharacter(event) {
         event.preventDefault();
 
 
@@ -75,7 +78,7 @@ class CreateCharacterPage extends Component {
                 wisdom: parseInt(this.state.wisdom),
                 charisma: parseInt(this.state.charisma),
                 game_id: this.props.location.state.game_id,
-                isMonster: this.state.isMonster
+                isMonster: this.npcCheck(),
             });
             if (response.data) {
                 this.setState({
@@ -91,14 +94,14 @@ class CreateCharacterPage extends Component {
     }
 
     checkForAdmin = () => {
-        if (this.props.location.state.admin) {
+        if (this.state.isAdmin) {
             return <Redirect to={{
                 pathname: '/initadmin',
                 state: {
                     game_id: this.state.game_id,
                     secret: this.props.location.state.secret,
                     game_name: this.props.location.state.game_name,
-                    admin: this.props.location.state.admin
+                    admin: this.state.isAdmin
                 }
             }} />
         }
@@ -114,6 +117,13 @@ class CreateCharacterPage extends Component {
         }
     }
 
+    npcCheck = () => {
+        if (this.props.location.state.admin) {
+            return true;
+        }
+        else return this.state.isMonster;
+    }
+
     render() {
         if (this.state.createSuccess) {
             if (this.props.location.state.admin) {
@@ -123,7 +133,7 @@ class CreateCharacterPage extends Component {
                         game_id: this.state.game_id,
                         secret: this.props.location.state.secret,
                         game_name: this.props.location.state.game_name,
-                        admin: this.props.location.state.admin
+                        admin: this.state.isAdmin
                     }
                 }} />
             }
@@ -248,7 +258,7 @@ class CreateCharacterPage extends Component {
                             primary={true}
                             type="submit"
                             disabled={!this.validateForm()}
-                            onClick={this.handleLogin}
+                            onClick={this.handleCreateCharacter}
                         />
                     </Container>
                 </form>

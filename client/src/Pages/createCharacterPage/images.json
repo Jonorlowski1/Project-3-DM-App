@@ -48,5 +48,10 @@
     "id": 10,
     "name": "Tiefling",
     "image": "./images/tiefling.png"
+  },
+  {
+    "id": 11,
+    "name": "Mage",
+    "image": "./images/womage.png"
   }
 ]

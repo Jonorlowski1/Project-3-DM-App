@@ -82,7 +82,7 @@ const addMonster = async (req, res) => {
 const updateChar = async (req, res) => {
   try {
     res.json(await db.Characters.update(
-      { name: req.body.name, hit_points: req.body.hit_points, initiative: req.body.initiative, armor_class: req.body.armor_class, strength: req.body.strength, dexterity: req.body.dexterity, constiution: req.body.constitution, intelligence: req.body.intelligence, wisdom: req.body.wisdom, charisma: req.body.charisma },
+      { name: req.body.name, hit_points: req.body.hit_points, initiative: req.body.initiative, armor_class: req.body.armor_class, strength: req.body.strength, dexterity: req.body.dexterity, constitution: req.body.constitution, intelligence: req.body.intelligence, wisdom: req.body.wisdom, charisma: req.body.charisma },
       { where: { id: req.params.id } },
     ));
   } catch (error) {
