@@ -28,7 +28,7 @@ class CreateCharacterPage extends Component {
             isMonster: false,
         };
         this.onPick = this.onPick.bind(this)
-        this.handleLogin = this.handleLogin.bind(this);
+        this.handleCreateCharacter = this.handleCreateCharacter.bind(this);
     }
 
     componentDidMount() {
@@ -39,8 +39,6 @@ class CreateCharacterPage extends Component {
     onPick(image) {
         this.setState({ image })
     }
-
-
 
     validateForm() {
         return this.state.name.length > 0;
@@ -58,7 +56,7 @@ class CreateCharacterPage extends Component {
         this.setState({ game_id });
     }
 
-    async handleLogin(event) {
+    async handleCreateCharacter(event) {
         event.preventDefault();
 
 
@@ -75,7 +73,7 @@ class CreateCharacterPage extends Component {
                 wisdom: parseInt(this.state.wisdom),
                 charisma: parseInt(this.state.charisma),
                 game_id: this.props.location.state.game_id,
-                isMonster: this.state.isMonster
+                isMonster: this.npcCheck(),
             });
             if (response.data) {
                 this.setState({
@@ -112,6 +110,13 @@ class CreateCharacterPage extends Component {
                 }
             }} />)
         }
+    }
+
+    npcCheck = () => {
+        if (this.props.location.state.admin) {
+            return true;
+        }
+        else return this.state.isMonster;
     }
 
     render() {
@@ -248,7 +253,7 @@ class CreateCharacterPage extends Component {
                             primary={true}
                             type="submit"
                             disabled={!this.validateForm()}
-                            onClick={this.handleLogin}
+                            onClick={this.handleCreateCharacter}
                         />
                     </Container>
                 </form>
