@@ -4,6 +4,7 @@ import GameCard from '../../components/gameCard';
 import { Form, Container, Heading } from 'react-bulma-components';
 import { Link } from "react-router-dom";
 import MyButton from '../../components/buttons';
+import NavTabs from '../../components/navTabs';
 import './index.css';
 import Modal from 'react-modal';
 
@@ -65,9 +66,12 @@ class GamePage extends Component {
     }
 
     loadGames = () => {
-        axios.get('/api/v1/games/' + this.props.location.state.user_id)
+        const { currentUser } = this.props.location.state;
+        console.log(currentUser)
+        axios.get('/api/v1/games/' + currentUser)
             .then(res => {
                 let gameList = res.data;
+                console.log(gameList)
                 if (gameList !== this.state.gameList) {
                     this.setState({ gameList, gameKey: '' });
                 }
@@ -75,14 +79,14 @@ class GamePage extends Component {
     };
 
     checkForAdmin = () => {
-        let admin = this.props.location.state.admin;
-        if (admin) {
+        const { isAdmin, currentUser } = this.props.location.state;
+        if (isAdmin) {
             return (
                 <Link to={{
                     pathname: '/creategame',
                     state: {
-                        admin: this.props.location.state.admin,
-                        user_id: this.props.location.state.user_id
+                        admin: isAdmin,
+                        user_id: currentUser
                     }
                 }}>
                     <MyButton text="Create New Game" primary={false}></MyButton>
@@ -93,9 +97,10 @@ class GamePage extends Component {
     }
 
     bindGame = async (event) => {
+        const { currentUser } = this.props.location.state;
         event.preventDefault();
         try {
-            const response = await axios.post('/api/v1/games/' + this.props.location.state.user_id, {
+            const response = await axios.post('/api/v1/games/' + currentUser, {
                 secret: this.state.gameKey,
             });
             if (response) {
@@ -111,7 +116,7 @@ class GamePage extends Component {
     }
 
     removeGame = async (id, secretId) => {
-        if (this.props.location.state.admin) {
+        if (this.props.location.state.isAdmin) {
             this.openSecondModal(id);
         }
         else {
@@ -147,6 +152,7 @@ class GamePage extends Component {
     }
 
     checkForEmpty = () => {
+        const { isAdmin, currentUser } = this.props.location.state;
         if (this.state.gameList.length === 0) {
             return (<div><Heading className="title-1 title-2" size={3}>It doesn't look like you are current playing in any games.</Heading>
                 <Heading className="title-1 title-2" size={5}>Use the form below to join a game that your DM has already created</Heading><br />
@@ -160,15 +166,14 @@ class GamePage extends Component {
                         key={game.id}
                         name={game.name}
                         secret={game.secret}
-                        admin={this.props.location.state.admin}
-                        user_id={this.props.location.state.user_id}
                         removeGame={this.removeGame}
+                        admin={isAdmin}
+                        user_id={currentUser}
                     />
                 ))}
             </div>);
         }
     }
-
     render() {
         return (
             <React.Fragment>
@@ -240,8 +245,7 @@ class GamePage extends Component {
                         />
                     </Container>
                 </Modal>
-
-            </React.Fragment>
+            </React.Fragment >
         )
     }
 }
