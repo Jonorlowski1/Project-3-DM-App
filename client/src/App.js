@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Role from './_helpers/role';
+import history from './_helpers/history';
 import './App.css';
 import 'react-bulma-components/dist/react-bulma-components.min.css';
 import PublicRoutes from './routes/PublicRoutes.js';
@@ -10,7 +11,7 @@ import HuePage from './Pages/huePage';
 import GamePage from './Pages/gamePage';
 import CreateGamePage from './Pages/createGamePage';
 import CreateCharacterPage from './Pages/createCharacterPage';
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { Router, Route, Switch } from "react-router-dom";
 import NavTabs from 'components/navTabs';
 
 class App extends Component {
@@ -20,35 +21,36 @@ class App extends Component {
     this.state = {
       isAdmin: false,
       currentUser: null,
-      role: null
+      role: null,
     };
+
   }
 
   componentDidMount = () => {
     const isAdmin = JSON.parse(localStorage.getItem("isAdmin"));
     const currentUser = JSON.parse(localStorage.getItem("currentUser"));
     if (currentUser !== '' && isAdmin) {
-      this.setState({ role: Role.Admin });
+      this.setState({ role: Role.Admin, isAdmin, currentUser });
     } else if (currentUser !== '') {
-      this.setState({ role: Role.User });
+      this.setState({ role: Role.User, isAdmin, currentUser });
     }
-    this.setState({ isAdmin, currentUser });
+    console.log(isAdmin);
+    console.log(currentUser);
   }
 
   render() {
-    const { currentUser, isAdmin } = this.state;
     return (
-      <Router>
+      <Router history={history}>
         {/* {isAdmin}
         <NavTabs></NavTabs> */}
         <React.Fragment>
           <Switch>
-            <PrivateRoute roles={[Role.Admin, Role.User]} comparison={this.state.role} path="/game" component={GamePage} />
-            <PrivateRoute roles={[Role.User]} comparison={this.state.role} path="/init" component={InitPage} />
-            <PrivateRoute roles={[Role.Admin]} comparison={this.state.role} path="/initadmin" component={InitAdminPage} />
-            <PrivateRoute roles={[Role.Admin]} comparison={this.state.role} path="/hue" component={HuePage} />
-            <PrivateRoute roles={[Role.Admin, Role.User]} comparison={this.state.role} path="/creategame" component={CreateGamePage} />
-            <PrivateRoute path="/createcharacter" roles={[Role.Admin, Role.User]} comparison={this.state.role} component={CreateCharacterPage} />
+            <PrivateRoute roles={[Role.Admin, Role.User]} comparison={this.state.role} exact path="/" component={GamePage} />
+            <PrivateRoute roles={[Role.User]} comparison={this.state.role} exact path="/init" component={InitPage} />
+            <PrivateRoute roles={[Role.Admin]} comparison={this.state.role} exact path="/initadmin" component={InitAdminPage} />
+            <PrivateRoute roles={[Role.Admin]} comparison={this.state.role} exact path="/hue" component={HuePage} />
+            <PrivateRoute roles={[Role.Admin, Role.User]} comparison={this.state.role} exact path="/creategame" component={CreateGamePage} />
+            <PrivateRoute exact path="/createcharacter" roles={[Role.Admin, Role.User]} comparison={this.state.role} component={CreateCharacterPage} />
             <Route path="/" component={PublicRoutes} />
           </Switch>
         </React.Fragment>

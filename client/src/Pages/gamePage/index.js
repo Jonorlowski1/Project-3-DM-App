@@ -66,8 +66,8 @@ class GamePage extends Component {
     }
 
     loadGames = () => {
-        const { currentUser } = this.props.location.state;
-        console.log(currentUser)
+        const { isAdmin, currentUser } = this.props.location.state;
+        console.log(currentUser, isAdmin)
         axios.get('/api/v1/games/' + currentUser)
             .then(res => {
                 let gameList = res.data;
@@ -97,7 +97,7 @@ class GamePage extends Component {
     }
 
     bindGame = async (event) => {
-        const { currentUser } = this.props.location.state;
+        const currentUser = this.props.location.state.currentUser;
         event.preventDefault();
         try {
             const response = await axios.post('/api/v1/games/' + currentUser, {

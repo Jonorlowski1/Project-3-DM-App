@@ -30,22 +30,20 @@ class LoginPage extends Component {
       currentUser: null,
       modalIsOpen: false
     };
-
-    this.openModal = this.openModal.bind(this);
-    this.closeModal = this.closeModal.bind(this);
-    
     const currentUser = JSON.parse(localStorage.getItem("currentUser"));
     const isAdmin = JSON.parse(localStorage.getItem("isAdmin"));
     if (currentUser) {
       this.props.history.push({
-        pathname: '/game',
+        pathname: '/',
         state: {
           currentUser: currentUser,
           isAdmin: isAdmin
         }
       });
     }
-    
+
+    this.openModal = this.openModal.bind(this);
+    this.closeModal = this.closeModal.bind(this);
     this.handleLogin = this.handleLogin.bind(this);
 
   };
@@ -100,7 +98,7 @@ class LoginPage extends Component {
   render() {
     if (this.state.loginSuccess) {
       return <Redirect to={{
-        pathname: '/game',
+        pathname: '/',
         state: {
           currentUser: this.state.currentUser,
           isAdmin: this.state.isAdmin
