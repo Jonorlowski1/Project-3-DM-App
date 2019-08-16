@@ -24,6 +24,8 @@ class HuePage extends Component {
   }
 
   componentDidMount() {
+    const currentUser = JSON.parse(localStorage.getItem("user_id"));
+    const isAdmin = JSON.parse(localStorage.getItem("isAdmin"));
     window.addEventListener("beforeunload", this.onUnload);
     const stateObject = JSON.parse(localStorage.getItem("state"));
     this.setState(stateObject);
@@ -84,8 +86,8 @@ class HuePage extends Component {
     axios.post('/api/v1/huelights/bridge', {
       accessToken: accessToken
     }).then(res => {
-      const userName = res.data;
-      this.setState({ username: userName })
+      const username = res.data;
+      this.setState({ username })
       this.setState({ expired: false })
       this.findAllLights();
     }).catch(

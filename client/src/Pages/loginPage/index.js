@@ -26,14 +26,28 @@ class LoginPage extends Component {
       email: '',
       password: '',
       loginSuccess: false,
-      admin: false,
-      user_id: null,
+      isAdmin: false,
+      currentUser: null,
       modalIsOpen: false
     };
 
     this.openModal = this.openModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
+    
+    const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+    const isAdmin = JSON.parse(localStorage.getItem("isAdmin"));
+    if (currentUser) {
+      this.props.history.push({
+        pathname: '/game',
+        state: {
+          currentUser: currentUser,
+          isAdmin: isAdmin
+        }
+      });
+    }
+    
     this.handleLogin = this.handleLogin.bind(this);
+
   };
 
   openModal() {
@@ -57,20 +71,19 @@ class LoginPage extends Component {
   async handleLogin(event) {
     event.preventDefault();
 
-
     try {
       const response = await axios.post('api/v1/auth/login', {
         email: this.state.email,
         password: this.state.password
       });
       if (response.data) {
-        const admin = response.data.admin;
-        const user_id = response.data.id;
-        localStorage.setItem("isAdmin", JSON.stringify(admin));
-        localStorage.setItem("user_id", JSON.stringify(user_id));
+        const isAdmin = response.data.admin;
+        const currentUser = response.data.id;
+        localStorage.setItem("isAdmin", JSON.stringify(isAdmin));
+        localStorage.setItem("currentUser", JSON.stringify(currentUser));
         this.setState({
-          admin,
-          user_id,
+          isAdmin,
+          currentUser,
           loginSuccess: true
         });
       }
@@ -89,8 +102,8 @@ class LoginPage extends Component {
       return <Redirect to={{
         pathname: '/game',
         state: {
-          user_id: this.state.user_id,
-          admin: this.state.admin,
+          currentUser: this.state.currentUser,
+          isAdmin: this.state.isAdmin
         }
       }} />
     }
