@@ -175,6 +175,7 @@ class GamePage extends Component {
         }
     }
     render() {
+        console.log(this.props)
         return (
             <React.Fragment>
                 <h1 className="title-1 loginTitle" style={{ textAlign: 'center' }}>Game List</h1>

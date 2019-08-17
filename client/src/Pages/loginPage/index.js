@@ -32,6 +32,8 @@ class LoginPage extends Component {
     };
     const currentUser = JSON.parse(localStorage.getItem("currentUser"));
     const isAdmin = JSON.parse(localStorage.getItem("isAdmin"));
+    const { pathname } = this.props.location;
+    console.log(pathname)
     if (currentUser) {
       this.props.history.push({
         pathname: '/',
@@ -79,10 +81,11 @@ class LoginPage extends Component {
         const currentUser = response.data.id;
         localStorage.setItem("isAdmin", JSON.stringify(isAdmin));
         localStorage.setItem("currentUser", JSON.stringify(currentUser));
-        this.setState({
-          isAdmin,
-          currentUser,
-          loginSuccess: true
+        const { from } = this.props.location.state || { from: { pathname: "/" } };
+        this.props.history.push({
+          pathname: '/',
+          currentUser: currentUser,
+          isAdmin: isAdmin,
         });
       }
     } catch (err) {
@@ -96,19 +99,6 @@ class LoginPage extends Component {
   };
 
   render() {
-    if (this.state.loginSuccess) {
-      return <Redirect to={{
-        pathname: '/',
-        state: {
-          currentUser: this.state.currentUser,
-          isAdmin: this.state.isAdmin
-        }
-      }} />
-    }
-    // else if (this.state.loginSuccess) {
-    //   return <Redirect to='/game' />
-    // }
-
     return (
       <div className="Login">
         <h1 className="title-1 loginTitle">DM Companion</h1>

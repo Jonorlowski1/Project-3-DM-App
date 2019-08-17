@@ -27,6 +27,10 @@ class App extends Component {
   }
 
   componentDidMount = () => {
+    this.checkUserType();
+  }
+
+  checkUserType = () => {
     const isAdmin = JSON.parse(localStorage.getItem("isAdmin"));
     const currentUser = JSON.parse(localStorage.getItem("currentUser"));
     if (currentUser !== '' && isAdmin) {
