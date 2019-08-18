@@ -22,7 +22,6 @@ class App extends Component {
       isAdmin: false,
       currentUser: null,
       role: null,
-      sessionChecked: false
     };
 
   }
@@ -52,6 +51,8 @@ class App extends Component {
               roles={[Role.Admin, Role.User]}
               comparison={this.state.role}
               exact path="/"
+              isAdmin={this.state.isAdmin}
+              currentUser={this.state.currentUser}
               component={GamePage} />
             <PrivateRoute
               roles={[Role.User]}

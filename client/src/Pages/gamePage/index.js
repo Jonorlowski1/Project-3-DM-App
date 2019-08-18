@@ -24,14 +24,15 @@ const customStyles = {
 class GamePage extends Component {
     constructor(props) {
         super(props);
+        console.log('Props:', props)
         this.state = {
             gameList: [],
             gameKey: '',
             modalIsOpen: false,
             secondModalIsOpen: false,
             deleteId: '',
-            currentUser: null,
-            isAdmin: false
+            currentUser: this.props.currentUser,
+            isAdmin: this.props.isAdmin
         };
 
         this.openModal = this.openModal.bind(this);
@@ -57,15 +58,7 @@ class GamePage extends Component {
     };
 
     componentDidMount = async () => {
-        await this.setUser();
         await this.loadGames();
-    }
-
-    setUser = () => {
-        const currentUser = JSON.parse(localStorage.getItem("currentUser"));
-        const isAdmin = JSON.parse(localStorage.getItem("isAdmin"));
-        console.log('Local Storage:', isAdmin, currentUser)
-        this.setState({ currentUser, isAdmin })
     }
 
     handleChange = event => {
