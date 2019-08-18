@@ -33,7 +33,8 @@ class InitAdminPage extends Component {
         this.socket.on('listChange', (characterList) => {
             this.setState({ characterList });
         });
-        console.log(this.props.location)
+        console.log('Props:', this.props)
+        
     }
 
     loadGameId = () => {

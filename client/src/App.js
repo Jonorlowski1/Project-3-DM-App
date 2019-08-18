@@ -58,26 +58,33 @@ class App extends Component {
               roles={[Role.User]}
               comparison={this.state.role}
               exact path="/init"
+              currentUser={this.state.currentUser}
               component={InitPage} />
             <PrivateRoute
               roles={[Role.Admin]}
               comparison={this.state.role}
               exact path="/initadmin"
+              isAdmin={this.state.isAdmin}
               component={InitAdminPage} />
             <PrivateRoute
               roles={[Role.Admin]}
               comparison={this.state.role}
               exact path="/hue"
+              isAdmin={this.state.isAdmin}
               component={HuePage} />
             <PrivateRoute
               roles={[Role.Admin, Role.User]}
               comparison={this.state.role}
               exact path="/creategame"
+              isAdmin={this.state.isAdmin}
+              currentUser={this.state.currentUser}
               component={CreateGamePage} />
             <PrivateRoute
               roles={[Role.Admin, Role.User]}
               comparison={this.state.role}
               exact path="/createcharacter"
+              isAdmin={this.state.isAdmin}
+              currentUser={this.state.currentUser}
               component={CreateCharacterPage} />
             <Route path="/" component={PublicRoutes} />
           </Switch>

@@ -31,8 +31,6 @@ class GamePage extends Component {
             modalIsOpen: false,
             secondModalIsOpen: false,
             deleteId: '',
-            currentUser: this.props.currentUser,
-            isAdmin: this.props.isAdmin
         };
 
         this.openModal = this.openModal.bind(this);
@@ -69,7 +67,7 @@ class GamePage extends Component {
     }
 
     loadGames = () => {
-        const { currentUser } = this.state;
+        const { currentUser } = this.props;
         console.log('Current User:', currentUser)
         axios.get('/api/v1/games/' + currentUser)
             .then(res => {
@@ -78,11 +76,12 @@ class GamePage extends Component {
                 if (gameList !== this.state.gameList) {
                     this.setState({ gameList, gameKey: '' });
                 }
+                console.log('Gamelist:', gameList)
             });
     };
 
     checkForAdmin = () => {
-        const { isAdmin, currentUser } = this.state;
+        const { isAdmin, currentUser } = this.props;
         if (isAdmin) {
             return (
                 <Link to={{
@@ -100,7 +99,7 @@ class GamePage extends Component {
     }
 
     bindGame = async (event) => {
-        const { currentUser } = this.state;
+        const { currentUser } = this.props;
         event.preventDefault();
         try {
             const response = await axios.post('/api/v1/games/' + currentUser, {
@@ -119,7 +118,7 @@ class GamePage extends Component {
     }
 
     removeGame = async (id, secretId) => {
-        const { isAdmin } = this.state;
+        const { isAdmin } = this.props;
         if (isAdmin) {
             this.openSecondModal(id);
         }
@@ -156,9 +155,9 @@ class GamePage extends Component {
     }
 
     checkForEmpty = () => {
-        const { isAdmin, currentUser } = this.state;
+        const { isAdmin, currentUser } = this.props;
         if (this.state.gameList.length === 0) {
-            return (<div><Heading className="title-1 title-2" size={3}>It doesn't look like you are current playing in any games.</Heading>
+            return (<div><Heading className="title-1 title-2" size={3}>It doesn't look like you are currently playing in any games.</Heading>
                 <Heading className="title-1 title-2" size={5}>Use the form below to join a game that your DM has already created</Heading><br />
             </div>);
         }
