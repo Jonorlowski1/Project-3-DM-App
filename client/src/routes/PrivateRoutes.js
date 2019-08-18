@@ -15,7 +15,7 @@ const PrivateRoute = ({ component: Component, roles, comparison, isAdmin, curren
         }
 
         // authorised so return component
-        return <Component isAdmin={isAdmin} currentUser={currentUser} gameList={gameList} gameKey={gameKey} {...props} />
+        return <Component isAdmin={isAdmin} currentUser={currentUser} {...props} />
     }} />
 )
 
