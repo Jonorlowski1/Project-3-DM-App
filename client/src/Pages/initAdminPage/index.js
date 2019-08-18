@@ -138,7 +138,7 @@ class InitAdminPage extends Component {
     render() {
         return (
             <React.Fragment>
-                <NavTabs game_id={this.props.location.state.game_id} game_name={this.props.location.state.game_name} secret={this.props.location.state.secret}/>
+               
                 <Heading className="title-1 title-2" id="gameTitle" size={1}> {this.props.location.state.game_name}</Heading>
                 <Heading className="title-2" id="secret" size={6}>Secret: {this.props.location.state.secret}</Heading>
                 <div >

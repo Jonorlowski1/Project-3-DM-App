@@ -22,12 +22,16 @@ class App extends Component {
       isAdmin: false,
       currentUser: null,
       role: null,
+      game_id: null,
+      game_name: null,
+      secret: null
     };
 
   }
 
-  componentDidMount = () => {
-   this.sessionCheck();
+  componentDidMount = async () => {
+    await this.sessionCheck();
+    await this.loadGameId();
   }
 
   sessionCheck = () => {
@@ -40,9 +44,21 @@ class App extends Component {
     }
   }
 
+  loadGameId = () => {
+    let game_id = JSON.parse(localStorage.getItem("gameId"));
+    let game_name = JSON.parse(localStorage.getItem("gameName"));
+    let secret = JSON.parse(localStorage.getItem("gameSecret"));
+    this.setState({ game_id, game_name, secret });
+  }
+
   render() {
     return (
+
       <Router history={history}>
+        {console.log(history.location.pathname)}
+        {history.location.pathname === '/login' ? null
+       : <NavTabs game_id={this.state.game_id} game_name={this.state.game_name} secret={this.state.secret} />
+    }
         {/* {isAdmin}
         <NavTabs></NavTabs> */}
         <React.Fragment>

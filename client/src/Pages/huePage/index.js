@@ -29,7 +29,6 @@ class HuePage extends Component {
     window.addEventListener("beforeunload", this.onUnload);
     const stateObject = JSON.parse(localStorage.getItem("state"));
     this.setState(stateObject);
-    this.loadGameId();
     this.checkForAuthCode();
   }
 
@@ -73,13 +72,6 @@ class HuePage extends Component {
       window.location.href = url;
     }).catch(err => { console.log(err); });
   };
-
-  loadGameId = () => {
-    let game_id = JSON.parse(localStorage.getItem("gameId"));
-    let game_name = JSON.parse(localStorage.getItem("gameName"));
-    let secret = JSON.parse(localStorage.getItem("gameSecret"));
-    this.setState({ game_id, game_name, secret });
-  }
 
   connectionHandler = () => {
     const accessToken = this.state.access_token;
@@ -196,7 +188,7 @@ class HuePage extends Component {
   render() {
     return (
       <React.Fragment>
-        <NavTabs game_id={this.state.game_id} game_name={this.state.game_name} secret={this.state.secret} />
+        
         <Heading className="title-1" size={1}>Lanterns</Heading>
         <Card id="huebox">
 
