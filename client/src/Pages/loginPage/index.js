@@ -25,23 +25,14 @@ class LoginPage extends Component {
     this.state = {
       email: '',
       password: '',
-      loginSuccess: false,
-      isAdmin: false,
-      currentUser: null,
       modalIsOpen: false
     };
     const currentUser = JSON.parse(localStorage.getItem("currentUser"));
-    const isAdmin = JSON.parse(localStorage.getItem("isAdmin"));
     const { pathname } = this.props.location;
     console.log(pathname)
     if (currentUser) {
-      this.props.history.push({
-        pathname: '/',
-        state: {
-          currentUser: currentUser,
-          isAdmin: isAdmin
-        }
-      });
+      const { from } = this.props.location.state || { from: { pathname: "/" } };
+      this.props.history.push(from);
     }
 
     this.openModal = this.openModal.bind(this);
@@ -82,19 +73,13 @@ class LoginPage extends Component {
         localStorage.setItem("isAdmin", JSON.stringify(isAdmin));
         localStorage.setItem("currentUser", JSON.stringify(currentUser));
         const { from } = this.props.location.state || { from: { pathname: "/" } };
-        this.props.history.push({
-          pathname: '/',
-          currentUser: currentUser,
-          isAdmin: isAdmin,
-        });
+        this.props.history.push(from);
       }
     } catch (err) {
       if (err) {
         this.openModal();
       }
-      this.setState({
-        loginSuccess: false,
-      })
+
     }
   };
 

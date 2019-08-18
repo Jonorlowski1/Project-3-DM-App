@@ -29,7 +29,9 @@ class GamePage extends Component {
             gameKey: '',
             modalIsOpen: false,
             secondModalIsOpen: false,
-            deleteId: ''
+            deleteId: '',
+            currentUser: null,
+            isAdmin: false
         };
 
         this.openModal = this.openModal.bind(this);
@@ -54,8 +56,16 @@ class GamePage extends Component {
         this.setState({ secondModalIsOpen: false });
     };
 
-    componentDidMount() {
-        this.loadGames();
+    componentDidMount = async () => {
+        await this.setUser();
+        await this.loadGames();
+    }
+
+    setUser = () => {
+        const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+        const isAdmin = JSON.parse(localStorage.getItem("isAdmin"));
+        console.log('Local Storage:', isAdmin, currentUser)
+        this.setState({ currentUser, isAdmin })
     }
 
     handleChange = event => {
@@ -66,8 +76,8 @@ class GamePage extends Component {
     }
 
     loadGames = () => {
-        const { isAdmin, currentUser } = this.props.location.state;
-        console.log(currentUser, isAdmin)
+        const { currentUser } = this.state;
+        console.log('Current User:', currentUser)
         axios.get('/api/v1/games/' + currentUser)
             .then(res => {
                 let gameList = res.data;
@@ -79,7 +89,7 @@ class GamePage extends Component {
     };
 
     checkForAdmin = () => {
-        const { isAdmin, currentUser } = this.props.location.state;
+        const { isAdmin, currentUser } = this.state;
         if (isAdmin) {
             return (
                 <Link to={{
@@ -97,7 +107,7 @@ class GamePage extends Component {
     }
 
     bindGame = async (event) => {
-        const currentUser = this.props.location.state.currentUser;
+        const { currentUser } = this.state;
         event.preventDefault();
         try {
             const response = await axios.post('/api/v1/games/' + currentUser, {
@@ -116,7 +126,8 @@ class GamePage extends Component {
     }
 
     removeGame = async (id, secretId) => {
-        if (this.props.location.state.isAdmin) {
+        const { isAdmin } = this.state;
+        if (isAdmin) {
             this.openSecondModal(id);
         }
         else {
@@ -152,7 +163,7 @@ class GamePage extends Component {
     }
 
     checkForEmpty = () => {
-        const { isAdmin, currentUser } = this.props.location.state;
+        const { isAdmin, currentUser } = this.state;
         if (this.state.gameList.length === 0) {
             return (<div><Heading className="title-1 title-2" size={3}>It doesn't look like you are current playing in any games.</Heading>
                 <Heading className="title-1 title-2" size={5}>Use the form below to join a game that your DM has already created</Heading><br />
