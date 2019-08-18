@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 
-const PrivateRoute = ({ component: Component, roles, comparison, isAdmin, currentUser, gameList, gameKey, ...rest }) => (
+const PrivateRoute = ({ component: Component, roles, comparison, isAdmin, currentUser, ...rest }) => (
     <Route {...rest} render={props => {
         if (comparison === null) {
             // not logged in so redirect to login page with the return url
