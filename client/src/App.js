@@ -52,11 +52,11 @@ class App extends Component {
   }
 
   render() {
+    const { role, currentUser, isAdmin } = this.state
     return (
-
       <Router history={history}>
         {console.log(history.location.pathname)}
-        {history.location.pathname === '/login' ? null
+        {role === Role.User || history.location.pathname === '/' ? null
        : <NavTabs game_id={this.state.game_id} game_name={this.state.game_name} secret={this.state.secret} />
     }
         {/* {isAdmin}
@@ -65,42 +65,42 @@ class App extends Component {
           <Switch>
             <PrivateRoute
               roles={[Role.Admin, Role.User]}
-              comparison={this.state.role}
+              comparison={role}
               exact path="/"
-              isAdmin={this.state.isAdmin}
-              currentUser={this.state.currentUser}
+              isAdmin={isAdmin}
+              currentUser={currentUser}
               component={GamePage} />
             <PrivateRoute
               roles={[Role.User]}
-              comparison={this.state.role}
+              comparison={role}
               exact path="/init"
-              currentUser={this.state.currentUser}
+              currentUser={currentUser}
               component={InitPage} />
             <PrivateRoute
               roles={[Role.Admin]}
-              comparison={this.state.role}
+              comparison={role}
               exact path="/initadmin"
-              isAdmin={this.state.isAdmin}
+              isAdmin={isAdmin}
               component={InitAdminPage} />
             <PrivateRoute
               roles={[Role.Admin]}
-              comparison={this.state.role}
+              comparison={role}
               exact path="/hue"
-              isAdmin={this.state.isAdmin}
+              isAdmin={isAdmin}
               component={HuePage} />
             <PrivateRoute
               roles={[Role.Admin, Role.User]}
-              comparison={this.state.role}
+              comparison={role}
               exact path="/creategame"
-              isAdmin={this.state.isAdmin}
-              currentUser={this.state.currentUser}
+              isAdmin={isAdmin}
+              currentUser={currentUser}
               component={CreateGamePage} />
             <PrivateRoute
               roles={[Role.Admin, Role.User]}
-              comparison={this.state.role}
+              comparison={role}
               exact path="/createcharacter"
-              isAdmin={this.state.isAdmin}
-              currentUser={this.state.currentUser}
+              isAdmin={isAdmin}
+              currentUser={currentUser}
               component={CreateCharacterPage} />
             <Route path="/" component={PublicRoutes} />
           </Switch>
