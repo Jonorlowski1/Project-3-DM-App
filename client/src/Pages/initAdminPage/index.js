@@ -6,6 +6,7 @@ import MonsterSearch from '../../components/monsterSearch';
 import { Container, Heading } from 'react-bulma-components';
 import NavTabs from "../../components/navTabs";
 import { Link } from 'react-router-dom';
+import { withRouter } from 'react-router';
 import MyButton from '../../components/buttons'
 import './index.css';
 
@@ -24,7 +25,7 @@ class InitAdminPage extends Component {
         // this.socket = io.connect(this.state.endpoint);
     }
 
-    componentDidMount() {
+    componentDidMount = () =>  {
         this.loadChars();
         let room = this.props.location.state.game_id;
         this.socket.on('connect', () => {
@@ -195,4 +196,4 @@ class InitAdminPage extends Component {
     }
 }
 
-export default InitAdminPage;
+export default withRouter(InitAdminPage);

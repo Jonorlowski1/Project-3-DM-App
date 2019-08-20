@@ -29,17 +29,19 @@ class App extends Component {
 
   }
 
-  componentDidMount = async () => {
-    await this.sessionCheck();
-    await this.loadGameId();
+  componentWillMount = () => {
+    this.sessionCheck();
+    this.loadGameId();
+    console.log(window.location.href)
   }
 
   sessionCheck = () => {
     const isAdmin = JSON.parse(localStorage.getItem("isAdmin"));
     const currentUser = JSON.parse(localStorage.getItem("currentUser"));
-    if (currentUser !== '' && isAdmin) {
+    console.log('Current User:', currentUser)
+    if (currentUser !== null && isAdmin) {
       this.setState({ role: Role.Admin, isAdmin, currentUser });
-    } else if (currentUser !== '') {
+    } else if (currentUser !== null) {
       this.setState({ role: Role.User, isAdmin, currentUser });
     }
   }
@@ -52,13 +54,13 @@ class App extends Component {
   }
 
   render() {
-    const { role, currentUser, isAdmin } = this.state
+    const { role, currentUser, isAdmin, game_id, game_name, secret } = this.state
     return (
       <Router history={history}>
         {console.log(history.location.pathname)}
-        {role === Role.User || history.location.pathname === '/' ? null
-       : <NavTabs game_id={this.state.game_id} game_name={this.state.game_name} secret={this.state.secret} />
-    }
+        {role === Role.User || window.location.pathname === '/' ? null
+          : <NavTabs game_id={game_id} game_name={game_name} secret={secret} />
+        }
         {/* {isAdmin}
         <NavTabs></NavTabs> */}
         <React.Fragment>

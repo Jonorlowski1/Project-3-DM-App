@@ -31,6 +31,8 @@ class GamePage extends Component {
             modalIsOpen: false,
             secondModalIsOpen: false,
             deleteId: '',
+            currentUser: this.props.currentUser,
+            isAdmin: this.props.isAdmin
         };
 
         this.openModal = this.openModal.bind(this);
@@ -67,7 +69,7 @@ class GamePage extends Component {
     }
 
     loadGames = () => {
-        const { currentUser } = this.props;
+        const { currentUser } = this.state;
         console.log('Current User:', currentUser)
         axios.get('/api/v1/games/' + currentUser)
             .then(res => {
@@ -81,7 +83,7 @@ class GamePage extends Component {
     };
 
     checkForAdmin = () => {
-        const { isAdmin, currentUser } = this.props;
+        const { isAdmin, currentUser } = this.state;
         if (isAdmin) {
             return (
                 <Link to={{
@@ -99,7 +101,7 @@ class GamePage extends Component {
     }
 
     bindGame = async (event) => {
-        const { currentUser } = this.props;
+        const { currentUser } = this.state;
         event.preventDefault();
         try {
             const response = await axios.post('/api/v1/games/' + currentUser, {
@@ -118,7 +120,7 @@ class GamePage extends Component {
     }
 
     removeGame = async (id, secretId) => {
-        const { isAdmin } = this.props;
+        const { isAdmin } = this.state;
         if (isAdmin) {
             this.openSecondModal(id);
         }
@@ -155,7 +157,7 @@ class GamePage extends Component {
     }
 
     checkForEmpty = () => {
-        const { isAdmin, currentUser } = this.props;
+        const { isAdmin, currentUser } = this.state;
         if (this.state.gameList.length === 0) {
             return (<div><Heading className="title-1 title-2" size={3}>It doesn't look like you are currently playing in any games.</Heading>
                 <Heading className="title-1 title-2" size={5}>Use the form below to join a game that your DM has already created</Heading><br />
