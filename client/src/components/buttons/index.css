@@ -18,6 +18,7 @@
 
 .mybutton-secondary {
   margin: 5px;
+  min-width: 180px;
   width: 180px;
   padding: 10px;
   font-family: 'Farro';
