@@ -34,6 +34,8 @@ class LoginPage extends Component {
     this.openModal = this.openModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
 
+    const from = this.props.history.goForward
+   
     const currentUser = JSON.parse(localStorage.getItem("currentUser"));
     const isAdmin = JSON.parse(localStorage.getItem("isAdmin"));
     if (currentUser) {
@@ -49,6 +51,10 @@ class LoginPage extends Component {
     this.handleLogin = this.handleLogin.bind(this);
 
   };
+
+  componentDidMount = () => {
+ console.log('Hello:', this.props)
+  }
 
   openModal() {
     this.setState({ modalIsOpen: true });

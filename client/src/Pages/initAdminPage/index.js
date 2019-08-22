@@ -18,8 +18,8 @@ class InitAdminPage extends Component {
         // endpoint: "localhost:3001"
     }
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.socket = io();
         // this.socket = io.connect(this.state.endpoint);
     }
