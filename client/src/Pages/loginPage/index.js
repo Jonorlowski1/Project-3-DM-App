@@ -33,7 +33,7 @@ class LoginPage extends Component {
 
     this.openModal = this.openModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
-    
+
     const currentUser = JSON.parse(localStorage.getItem("currentUser"));
     const isAdmin = JSON.parse(localStorage.getItem("isAdmin"));
     if (currentUser) {
@@ -45,7 +45,7 @@ class LoginPage extends Component {
         }
       });
     }
-    
+
     this.handleLogin = this.handleLogin.bind(this);
 
   };
@@ -159,7 +159,8 @@ class LoginPage extends Component {
           style={customStyles}
           contentLabel="Failed Login"
         >
-          <h2 className="title-2">Login failed, incorrect e-mail or password</h2>
+          <h2 className="title-2">Login failed, incorrect e-mail or password.</h2>
+          <p className="title-2">Would you like to reset your password?</p>
           <Container id="buttons" fluid>
             <MyButton
               text="Close"
@@ -167,6 +168,9 @@ class LoginPage extends Component {
               type="submit"
               onClick={this.closeModal}
             />
+            <Link to="/forgotpassword">
+              <MyButton static={true} text="Forgot Password?"></MyButton>
+            </Link>
           </Container>
         </Modal>
 
