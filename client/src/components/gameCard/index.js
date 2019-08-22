@@ -4,6 +4,7 @@ import MyButton from '../buttons';
 import { Link } from 'react-router-dom';
 
 const GameCard = (props) => {
+    console.log('Game Card Props:', props)
     const checkForAdmin = () => {
         if (props.admin) {
             return (

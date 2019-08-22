@@ -25,14 +25,19 @@ class LoginPage extends Component {
     this.state = {
       email: '',
       password: '',
-      modalIsOpen: false
+      modalIsOpen: false,
+      loginSuccess: false
     };
     const currentUser = JSON.parse(localStorage.getItem("currentUser"));
-    const { pathname } = this.props.location;
-    console.log(pathname)
+    const isAdmin = JSON.parse(localStorage.getItem("isAdmin"));
     if (currentUser) {
-      const { from } = this.props.location.state || { from: { pathname: "/" } };
-      this.props.history.push(from);
+      return <Redirect to={{
+        pathname: window.location.pathname,
+        state: {
+          currentUser: currentUser,
+          isAdmin: isAdmin
+        }
+      }} />
     }
 
     this.openModal = this.openModal.bind(this);
@@ -72,8 +77,11 @@ class LoginPage extends Component {
         const currentUser = response.data.id;
         localStorage.setItem("isAdmin", JSON.stringify(isAdmin));
         localStorage.setItem("currentUser", JSON.stringify(currentUser));
-        const { from } = this.props.location.state || { from: { pathname: "/" } };
-        this.props.history.push(from);
+        this.setState({
+          currentUser,
+          isAdmin,
+          loginSuccess: true
+        })
       }
     } catch (err) {
       if (err) {
@@ -84,6 +92,16 @@ class LoginPage extends Component {
   };
 
   render() {
+    const { loginSuccess, currentUser, isAdmin } = this.state;
+    if (loginSuccess) {
+      return <Redirect to={{
+        pathname: '/',
+        state: {
+          currentUser: currentUser,
+          isAdmin: isAdmin
+        }
+      }} />
+    }
     return (
       <div className="Login">
         <h1 className="title-1 loginTitle">DM Companion</h1>

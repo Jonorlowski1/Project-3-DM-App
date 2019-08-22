@@ -11,7 +11,7 @@ import HuePage from './Pages/huePage';
 import GamePage from './Pages/gamePage';
 import CreateGamePage from './Pages/createGamePage';
 import CreateCharacterPage from './Pages/createCharacterPage';
-import { Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import NavTabs from 'components/navTabs';
 
 class App extends Component {
@@ -29,38 +29,36 @@ class App extends Component {
 
   }
 
-  componentWillMount = () => {
-    this.sessionCheck();
-    this.loadGameId();
-    console.log(window.location.href)
+  componentDidMount = async () => {
+    await this.sessionCheck();
+    // await this.loadGameId();
   }
 
   sessionCheck = () => {
     const isAdmin = JSON.parse(localStorage.getItem("isAdmin"));
     const currentUser = JSON.parse(localStorage.getItem("currentUser"));
-    console.log('Current User:', currentUser)
-    if (currentUser !== null && isAdmin) {
+    if (currentUser !== '' && isAdmin) {
       this.setState({ role: Role.Admin, isAdmin, currentUser });
-    } else if (currentUser !== null) {
+    } else if (currentUser !== '') {
       this.setState({ role: Role.User, isAdmin, currentUser });
     }
   }
 
-  loadGameId = () => {
-    let game_id = JSON.parse(localStorage.getItem("gameId"));
-    let game_name = JSON.parse(localStorage.getItem("gameName"));
-    let secret = JSON.parse(localStorage.getItem("gameSecret"));
-    this.setState({ game_id, game_name, secret });
-  }
+  // loadGameId = () => {
+  //   let game_id = JSON.parse(localStorage.getItem("gameId"));
+  //   let game_name = JSON.parse(localStorage.getItem("gameName"));
+  //   let secret = JSON.parse(localStorage.getItem("gameSecret"));
+  //   this.setState({ game_id, game_name, secret });
+  // }
 
   render() {
-    const { role, currentUser, isAdmin, game_id, game_name, secret } = this.state
+    const { role, currentUser, isAdmin } = this.state
     return (
-      <Router history={history}>
-        {console.log(history.location.pathname)}
-        {role === Role.User || window.location.pathname === '/' ? null
-          : <NavTabs game_id={game_id} game_name={game_name} secret={secret} />
-        }
+      <Router>
+        {/* {console.log(history.location.pathname)}
+        {role === Role.User || history.location.pathname === '/' ? null
+       : <NavTabs game_id={this.state.game_id} game_name={this.state.game_name} secret={this.state.secret} />
+    } */}
         {/* {isAdmin}
         <NavTabs></NavTabs> */}
         <React.Fragment>
@@ -83,12 +81,14 @@ class App extends Component {
               comparison={role}
               exact path="/initadmin"
               isAdmin={isAdmin}
+              currentUser={currentUser}
               component={InitAdminPage} />
             <PrivateRoute
               roles={[Role.Admin]}
               comparison={role}
               exact path="/hue"
               isAdmin={isAdmin}
+              currentUser={currentUser}
               component={HuePage} />
             <PrivateRoute
               roles={[Role.Admin, Role.User]}
