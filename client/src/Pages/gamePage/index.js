@@ -67,6 +67,7 @@ class GamePage extends Component {
 
     loadGames = () => {
         const { currentUser } = this.props.location.state;
+        console.log('Current Location:', this.props.location.state)
         console.log(currentUser)
         axios.get('/api/v1/games/' + currentUser)
             .then(res => {

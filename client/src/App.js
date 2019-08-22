@@ -27,12 +27,11 @@ class App extends Component {
   componentDidMount = () => {
     const isAdmin = JSON.parse(localStorage.getItem("isAdmin"));
     const currentUser = JSON.parse(localStorage.getItem("currentUser"));
-    if (currentUser !== '' && isAdmin) {
-      this.setState({ role: Role.Admin });
-    } else if (currentUser !== '') {
-      this.setState({ role: Role.User });
+    if (currentUser !== null && isAdmin) {
+      this.setState({ role: Role.Admin, isAdmin, currentUser });
+    } else if (currentUser !== null) {
+      this.setState({ role: Role.User, isAdmin, currentUser });
     }
-    this.setState({ isAdmin, currentUser });
   }
 
   render() {
