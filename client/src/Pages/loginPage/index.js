@@ -34,21 +34,25 @@ class LoginPage extends Component {
 
     this.openModal = this.openModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
+    console.log('Hello:', this.props)
+    const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+    const isAdmin = JSON.parse(localStorage.getItem("isAdmin"));
+    if (currentUser) {
+      this.props.history.push({
+        pathname: '/game',
+        state: {
+          currentUser: currentUser,
+          isAdmin: isAdmin,
+        }
+      });
+    }
 
-  
     this.handleLogin = this.handleLogin.bind(this);
 
   };
 
   componentDidMount = () => {
-    console.log('Hello:', this.props)
     console.log(this.props)
-    const currentUser = JSON.parse(localStorage.getItem("currentUser"));
-    const isAdmin = JSON.parse(localStorage.getItem("isAdmin"));
-    if (currentUser) {
-      this.setState({ currentUser, isAdmin, loginSuccess: true })
-    }
-
   }
 
   openModal() {
@@ -99,7 +103,6 @@ class LoginPage extends Component {
   };
 
   render() {
-    const hueRedirect = localStorage.getItem("not_redirected");
     if (this.state.loginSuccess) {
       return <Redirect to={{
         pathname: '/game',
@@ -109,15 +112,6 @@ class LoginPage extends Component {
         }
       }} />
     }
-    // } else if (this.state.loginSuccess && hueRedirect) {
-    //   return <Redirect to={{
-    //     pathname: '/hue',
-    //     state: {
-    //       currentUser: this.state.currentUser,
-    //       isAdmin: this.state.isAdmin
-    //     }
-    //   }} />
-    // }
     // else if (this.state.loginSuccess) {
     //   return <Redirect to='/game' />
     // }
