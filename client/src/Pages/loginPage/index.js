@@ -6,6 +6,7 @@ import './index.css';
 import { Link } from "react-router-dom";
 import MyButton from '../../components/buttons';
 import Modal from 'react-modal';
+import { withRouter } from 'react-router';
 
 Modal.setAppElement('#root');
 const customStyles = {
@@ -34,26 +35,20 @@ class LoginPage extends Component {
     this.openModal = this.openModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
 
-    const from = this.props.history.goForward
-   
-    const currentUser = JSON.parse(localStorage.getItem("currentUser"));
-    const isAdmin = JSON.parse(localStorage.getItem("isAdmin"));
-    if (currentUser) {
-      this.props.history.push({
-        pathname: '/game',
-        state: {
-          currentUser: currentUser,
-          isAdmin: isAdmin
-        }
-      });
-    }
-
+  
     this.handleLogin = this.handleLogin.bind(this);
 
   };
 
   componentDidMount = () => {
- console.log('Hello:', this.props)
+    console.log('Hello:', this.props)
+    console.log(this.props)
+    const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+    const isAdmin = JSON.parse(localStorage.getItem("isAdmin"));
+    if (currentUser) {
+      this.setState({ currentUser, isAdmin, loginSuccess: true })
+    }
+
   }
 
   openModal() {
@@ -104,9 +99,18 @@ class LoginPage extends Component {
   };
 
   render() {
-    if (this.state.loginSuccess) {
+    const hueRedirect = localStorage.getItem("not_redirected");
+    if (this.state.loginSuccess && !hueRedirect) {
       return <Redirect to={{
         pathname: '/game',
+        state: {
+          currentUser: this.state.currentUser,
+          isAdmin: this.state.isAdmin
+        }
+      }} />
+    } else if (this.state.loginSuccess && hueRedirect) {
+      return <Redirect to={{
+        pathname: '/hue',
         state: {
           currentUser: this.state.currentUser,
           isAdmin: this.state.isAdmin
@@ -185,4 +189,4 @@ class LoginPage extends Component {
   };
 }
 
-export default LoginPage;
+export default withRouter(LoginPage);

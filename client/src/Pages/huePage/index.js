@@ -24,6 +24,10 @@ class HuePage extends Component {
   }
 
   componentDidMount() {
+    const { redirect } = this.state;
+    if (redirect) {
+      localStorage.removeItem("not_redirected");
+    }
     const currentUser = JSON.parse(localStorage.getItem("user_id"));
     const isAdmin = JSON.parse(localStorage.getItem("isAdmin"));
     window.addEventListener("beforeunload", this.onUnload);
@@ -68,6 +72,8 @@ class HuePage extends Component {
   }
 
   redirect = () => {
+    const { redirect } = this.state
+    localStorage.setItem("not_redirected", JSON.stringify(redirect));
     axios.get('/api/v1/huelights/url').then(res => {
       const url = res.data;
       window.location.href = url;

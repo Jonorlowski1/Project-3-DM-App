@@ -14,7 +14,7 @@ class InitAdminPage extends Component {
     state = {
         characterList: [],
         game_id: null,
-        user_id: null,
+        user_id: null
         // endpoint: "localhost:3001"
     }
 
@@ -22,9 +22,16 @@ class InitAdminPage extends Component {
         super(props);
         this.socket = io();
         // this.socket = io.connect(this.state.endpoint);
+        this.props.history.push({
+            pathname: '/initadmin',
+            state: 
+             this.props.location.state
+            
+        })
     }
 
     componentDidMount() {
+        console.log('Test:', this.state.location);
         this.loadChars();
         let room = this.props.location.state.game_id;
         this.socket.on('connect', () => {
