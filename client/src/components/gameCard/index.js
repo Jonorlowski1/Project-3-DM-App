@@ -18,12 +18,12 @@ const GameCard = (props) => {
                                 admin: props.admin
                             }
                         }}>
-                            <MyButton static={true} text="Join Game" primary={true}>
+                            <MyButton static={true} text="Join Game" primary={false}>
                             </MyButton>
                         </Link>
                     </Card.Footer.Item>
                     <Card.Footer.Item>
-                        <MyButton primary={false} text="Delete Game" onClick={() => props.removeGame(props.id, props.secret)}></MyButton>
+                        <MyButton primary={true} text="Delete Game" onClick={() => props.removeGame(props.id, props.secret)}></MyButton>
                     </Card.Footer.Item>
                 </Card.Footer>)
         }

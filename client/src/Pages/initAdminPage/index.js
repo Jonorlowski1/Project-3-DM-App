@@ -6,7 +6,8 @@ import MonsterSearch from '../../components/monsterSearch';
 import { Container, Heading } from 'react-bulma-components';
 import NavTabs from "../../components/navTabs";
 import { Link } from 'react-router-dom';
-import MyButton from '../../components/buttons'
+import MyButton from '../../components/buttons';
+import MyTertiaryButton from '../../components/otherButtons';
 import './index.css';
 
 
@@ -180,8 +181,8 @@ class InitAdminPage extends Component {
               admin: this.props.location.state.admin
             }
           }}>
-            <MyButton text="Create NPC" primary={false}>
-            </MyButton>
+            <MyTertiaryButton text="Create NPC">
+            </MyTertiaryButton>
           </ Link>
         </Container>
         {/* <hr id="hr"/> */}
