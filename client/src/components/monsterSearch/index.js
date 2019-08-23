@@ -55,7 +55,7 @@ class MonsterSearch extends Component {
     ];
     return (
       <div id="monsterSearch">
-        {/* <Autocomplete
+        <Autocomplete
           getItemValue={(monster) => monster.name}
           items={this.state.monsterList}
           shouldItemRender={(monster, value) =>
@@ -80,10 +80,10 @@ class MonsterSearch extends Component {
             maxWidth: '200px',
             maxHeight: '200px', // TODO: don't cheat, let it flow to the bottom
           }}
-        /> */}
-        {/* <MyButton className="searchbutton" id="monsterSearchButton" text="Add Monster" primary={false} onClick={() => this.addMonster(this.state.game_id)}></MyButton> */}
+        />
+        <MyButton className="searchbutton" id="monsterSearchButton" text="Add Monster" primary={false} onClick={() => this.addMonster(this.state.game_id)}></MyButton>
 
-        <Downshift
+        {/* <Downshift
           onChange={selection => alert(
             selection ? `You selected ${selection.value}` : 'Selection Cleared'
           )}
@@ -127,7 +127,7 @@ class MonsterSearch extends Component {
               </div>
             )}
         </Downshift>,
-          {/* document.getElementById('root'), */}
+          document.getElementById('root'), */}
 
 
       </div>
