@@ -54,14 +54,14 @@
   margin: 5px;
 }
 
-#monsterSearch {
+.monsterSearch {
   /* padding-bottom: 100px; */
   overflow: auto;
   text-align: center
 }
 
-#monsterSearch input {
-  width: 200px;
+.monsterSearch input {
+  width: 250px;
   height: 38px;
   border: 2px solid;
   border-radius: 4px;

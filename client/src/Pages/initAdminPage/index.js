@@ -7,8 +7,14 @@ import { Container, Heading } from 'react-bulma-components';
 import NavTabs from "../../components/navTabs";
 import { Link } from 'react-router-dom';
 import MyButton from '../../components/buttons'
+import Select from 'react-select';
 import './index.css';
 
+const options = [
+  { value: 'chocolate', label: 'Chocolate' },
+  { value: 'strawberry', label: 'Strawberry' },
+  { value: 'vanilla', label: 'Vanilla' }
+]
 
 class InitAdminPage extends Component {
   state = {
@@ -34,6 +40,10 @@ class InitAdminPage extends Component {
       this.setState({ characterList });
     });
   }
+
+  MyComponent = () => (
+    <Select options={options} />
+  )
 
   loadGameId = () => {
     let game_id = this.props.location.state.game_id;
@@ -134,7 +144,7 @@ class InitAdminPage extends Component {
   }
 
   render() {
-   
+
     return (
       <React.Fragment>
         <NavTabs game_id={this.props.location.state.game_id} game_name={this.props.location.state.game_name} secret={this.props.location.state.secret} />
@@ -186,7 +196,8 @@ class InitAdminPage extends Component {
         </Container>
         {/* <hr id="hr"/> */}
         <Container fluid id="bottomPadding">
-          <h1 id="monsterSearch">Monster Creation</h1>
+          <h1 className="monsterSearch">Monster Creation</h1>
+
           <MonsterSearch game_id={this.props.location.state.game_id} loadChars={this.loadChars} />
         </Container>
       </React.Fragment>
