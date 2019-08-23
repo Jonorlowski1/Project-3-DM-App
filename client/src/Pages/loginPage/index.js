@@ -108,6 +108,7 @@ class LoginPage extends Component {
           isAdmin: this.state.isAdmin
         }
       }} />
+    }
     // } else if (this.state.loginSuccess && hueRedirect) {
     //   return <Redirect to={{
     //     pathname: '/hue',
