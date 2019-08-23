@@ -100,7 +100,7 @@ class LoginPage extends Component {
 
   render() {
     const hueRedirect = localStorage.getItem("not_redirected");
-    if (this.state.loginSuccess && !hueRedirect) {
+    if (this.state.loginSuccess) {
       return <Redirect to={{
         pathname: '/game',
         state: {
@@ -108,15 +108,15 @@ class LoginPage extends Component {
           isAdmin: this.state.isAdmin
         }
       }} />
-    } else if (this.state.loginSuccess && hueRedirect) {
-      return <Redirect to={{
-        pathname: '/hue',
-        state: {
-          currentUser: this.state.currentUser,
-          isAdmin: this.state.isAdmin
-        }
-      }} />
-    }
+    // } else if (this.state.loginSuccess && hueRedirect) {
+    //   return <Redirect to={{
+    //     pathname: '/hue',
+    //     state: {
+    //       currentUser: this.state.currentUser,
+    //       isAdmin: this.state.isAdmin
+    //     }
+    //   }} />
+    // }
     // else if (this.state.loginSuccess) {
     //   return <Redirect to='/game' />
     // }
