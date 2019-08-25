@@ -27,6 +27,7 @@ class LoginPage extends Component {
       email: '',
       password: '',
       loginSuccess: false,
+      logOut: false,
       isAdmin: false,
       currentUser: null,
       modalIsOpen: false
@@ -52,7 +53,7 @@ class LoginPage extends Component {
   };
 
   componentDidMount = () => {
-    console.log(this.props)
+    this.handleLogOut();
   }
 
   openModal() {
@@ -72,6 +73,13 @@ class LoginPage extends Component {
       [event.target.id]: event.target.value
     });
   };
+
+  handleLogOut = () => {
+    if (this.state.logOut) {
+      localStorage.removeItem('currentUser');
+      localStorage.removeItem('isAdmin');
+    }
+  }
 
   async handleLogin(event) {
     event.preventDefault();

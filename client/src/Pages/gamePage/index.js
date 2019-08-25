@@ -29,7 +29,8 @@ class GamePage extends Component {
             gameKey: '',
             modalIsOpen: false,
             secondModalIsOpen: false,
-            deleteId: ''
+            deleteId: '',
+            logOut: false
         };
 
         this.openModal = this.openModal.bind(this);
@@ -55,6 +56,9 @@ class GamePage extends Component {
     };
 
     componentDidMount() {
+        if (this.props.location.state.logOut) {
+            this.handleLogOut();
+        }
         this.loadGames();
     }
 
@@ -63,6 +67,15 @@ class GamePage extends Component {
         this.setState({
             [event.target.id]: value
         });
+    }
+
+    handleLogOut = () => {
+        if (this.props.location.state.logOut) {
+            console.log('Hello There!')
+            localStorage.removeItem('currentUser');
+            localStorage.removeItem('isAdmin');
+            this.props.history.push('/');
+        }
     }
 
     loadGames = () => {

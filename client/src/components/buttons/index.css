@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto|Darker+Grotesque|Farro&display=swap');
+
 .mybutton {
   margin: 5px;
   width: 180px;
@@ -49,4 +50,17 @@
 
 .mybutton-secondary:active {
   box-shadow: none;
+}
+
+@media (max-width: 380px) {
+  .mybutton {
+    width: auto;
+    font-size: auto;
+  }
+
+  .mybutton-secondary {
+    min-width: none;
+    width: auto;
+    font-size: auto;
+  }
 }
