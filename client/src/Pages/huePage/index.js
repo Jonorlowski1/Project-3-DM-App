@@ -24,10 +24,10 @@ class HuePage extends Component {
   }
 
   componentDidMount() {
-    const { redirect } = this.state;
-    if (redirect) {
-      localStorage.removeItem("not_redirected");
-    }
+    // const { redirect } = this.state;
+    // if (redirect) {
+    //   localStorage.removeItem("not_redirected");
+    // }
     const currentUser = JSON.parse(localStorage.getItem("user_id"));
     const isAdmin = JSON.parse(localStorage.getItem("isAdmin"));
     window.addEventListener("beforeunload", this.onUnload);

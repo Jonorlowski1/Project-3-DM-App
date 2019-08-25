@@ -6,15 +6,15 @@ import MyButton from '../../components/buttons'
 const Lights = (props) => {
   return (
     <Container id="buttons">
-          <MyButton text="Light On" onClick={() => props.lightOn()}>
+          <MyButton primary={true} text="Light On" onClick={() => props.lightOn()}>
           </MyButton>
-          <MyButton text="Light Off" onClick={() => props.lightOff()}>
+          <MyButton primary={true} text="Light Off" onClick={() => props.lightOff()}>
           </MyButton>
-          <MyButton text="Critical" onClick={() => props.critical()}>
+          <MyButton primary={true} text="Critical" onClick={() => props.critical()}>
           </MyButton>
-          <MyButton text="Fade In" onClick={() => props.fadeIn()}>
+          <MyButton primary={true} text="Fade In" onClick={() => props.fadeIn()}>
           </MyButton>
-          <MyButton text="Fade Out" onClick={() => props.fadeOut()}>
+          <MyButton primary={true} text="Fade Out" onClick={() => props.fadeOut()}>
           </MyButton>  
     </Container>
   )
