@@ -35,7 +35,6 @@ class LoginPage extends Component {
 
     this.openModal = this.openModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
-    console.log('Hello:', this.props)
     const currentUser = JSON.parse(localStorage.getItem("currentUser"));
     const isAdmin = JSON.parse(localStorage.getItem("isAdmin"));
     if (currentUser) {

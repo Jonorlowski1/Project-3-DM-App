@@ -31,7 +31,6 @@ class InitAdminPage extends Component {
     }
 
     componentDidMount() {
-        console.log('Test:', this.state.location);
         this.loadChars();
         let room = this.props.location.state.game_id;
         this.socket.on('connect', () => {
