@@ -34,6 +34,23 @@
   box-shadow: 0 2.5px 2.5px rgba(0, 0, 0, 0.19), 0 1.5px 1.5px rgba(0, 0, 0, 0.23);
 }
 
+.mybutton-tertiary {
+  margin: 5px;
+  width: 180px;
+  padding: 10px;
+  font-family: 'Farro';
+  text-decoration: none;
+  text-transform: uppercase;
+  text-align: center;
+  color: white;
+  outline: 0;
+  /* background-color: #346E23; */
+  background-color: #33337A;
+  border-radius: 2px;
+  border: 1px;
+  box-shadow: 0 2.5px 2.5px rgba(0, 0, 0, 0.19), 0 1.5px 1.5px rgba(0, 0, 0, 0.23);
+}
+
 .mybutton-secondary:hover {
   background-color: #3F842A;
   color: white
