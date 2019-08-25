@@ -1,3 +1,4 @@
+    
 import React, { Component } from 'react';
 import './App.css';
 import 'react-bulma-components/dist/react-bulma-components.min.css';
@@ -10,8 +11,7 @@ import CreateGamePage from './Pages/createGamePage';
 import ForgotPasswordPage from './Pages/forgotPasswordPage'
 import InitAdminPage from './Pages/initAdminPage'
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import CreateCharacterPage from './Pages/createCharacterPage';
-import ResetPasswordPage from './Pages/resetPasswordPage';
+import CreateCharacterPage from './Pages/createCharacterPage'
 
 class App extends Component {
 
@@ -22,7 +22,7 @@ class App extends Component {
 
   componentDidMount = async () => {
     const isAdmin = await JSON.parse(localStorage.getItem("isAdmin"));
-    const currentUser = await JSON.parse(localStorage.getItem("currentUser"));
+    const currentUser = await JSON.parse(localStorage.getItem("user_id"));
     this.setState({ isAdmin, currentUser });
   }
 
@@ -40,7 +40,6 @@ class App extends Component {
             <Route exact path='/game' component={GamePage} />
             <Route exact path='/creategame' component={CreateGamePage} />
             <Route exact path='/createcharacter' component={CreateCharacterPage} />
-            <Route exact path="/reset/:token" component={ResetPasswordPage} />
           </Switch>
         </React.Fragment>
       </Router>

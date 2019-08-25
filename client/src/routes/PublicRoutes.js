@@ -3,7 +3,6 @@ import { Route } from "react-router-dom";
 import LoginPage from '../Pages/loginPage';
 import CreateUserPage from '../Pages/createUserPage';
 import ForgotPasswordPage from '../Pages/forgotPasswordPage';
-import ResetPasswordPage from '../Pages/resetPasswordPage';
 
 const PublicRoutes = ({ match, isAuth }) => (
   <div>
@@ -19,7 +18,7 @@ const PublicRoutes = ({ match, isAuth }) => (
       path='/'
      component={LoginPage}
     />
-    <Route exact path="/reset/:token" component={ResetPasswordPage} />
+   
   </div>
 );
 
