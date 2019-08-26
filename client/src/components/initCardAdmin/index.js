@@ -24,7 +24,7 @@ const InitCardAdmin = (props) => {
   const checkForDeath = () => {
     if (props.isMonster) {
       return <Card.Footer.Item>
-        <MyButton wide={true} primary={false} text="Remove Character" onClick={() => props.removeChar(props.id)}></MyButton></Card.Footer.Item>
+        <MyButton wide={true} primary={true} text="Remove Character" onClick={() => props.removeChar(props.id)}></MyButton></Card.Footer.Item>
     }
     else {
       return null;

@@ -73,6 +73,7 @@ class GamePage extends Component {
     handleLogOut = () => {
         localStorage.removeItem('currentUser');
         localStorage.removeItem('isAdmin');
+        localStorage.removeItem('state');
         this.props.history.push('/');
     }
 
