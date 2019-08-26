@@ -76,3 +76,7 @@
 #secretForm {
   max-width: 350px;
 }
+
+#formContainer {
+  margin-bottom: 5px;
+}

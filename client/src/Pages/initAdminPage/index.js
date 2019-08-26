@@ -7,6 +7,7 @@ import { Container, Heading } from 'react-bulma-components';
 import NavTabs from "../../components/navTabs";
 import { Link } from 'react-router-dom';
 import MyButton from '../../components/buttons'
+import MyTertiaryButton from '../../components/otherButtons';
 import Select from 'react-select';
 import './index.css';
 
@@ -177,8 +178,8 @@ class InitAdminPage extends Component {
           ))}
         </div>
         <Container id="buttons" fluid>
-          <MyButton primary={true} text="Reset Encounter" onClick={this.resetEncounter}></MyButton>
-          <MyButton primary={true} text="Initiative Sort" onClick={() => this.initSort(this.state.characterList)}></MyButton>
+          <MyTertiaryButton text="Reset Encounter" onClick={this.resetEncounter}></MyTertiaryButton>
+          <MyTertiaryButton text="Initiative Sort" onClick={() => this.initSort(this.state.characterList)}></MyTertiaryButton>
         </Container>
         <Container id="npcContainer" fluid>
           <Link to={{
