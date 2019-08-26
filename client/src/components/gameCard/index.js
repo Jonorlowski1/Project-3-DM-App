@@ -23,7 +23,7 @@ const GameCard = (props) => {
                         </Link>
                     </Card.Footer.Item>
                     <Card.Footer.Item>
-                        <MyButton primary={true} text="Delete Game" onClick={() => props.removeGame(props.id, props.secret)}></MyButton>
+                        <MyButton wide={true} primary={true} text="Delete Game" onClick={() => props.removeGame(props.id, props.secret)}></MyButton>
                     </Card.Footer.Item>
                 </Card.Footer>)
         }

@@ -29,7 +29,8 @@ class GamePage extends Component {
             gameKey: '',
             modalIsOpen: false,
             secondModalIsOpen: false,
-            deleteId: ''
+            deleteId: '',
+            logOut: false
         };
 
         this.openModal = this.openModal.bind(this);
@@ -55,6 +56,10 @@ class GamePage extends Component {
     };
 
     componentDidMount() {
+        const { logOut } = this.props.location.state;
+        if (logOut) {
+            this.handleLogOut();
+        }
         this.loadGames();
     }
 
@@ -65,13 +70,18 @@ class GamePage extends Component {
         });
     }
 
+    handleLogOut = () => {
+        localStorage.removeItem('currentUser');
+        localStorage.removeItem('isAdmin');
+        localStorage.removeItem('state');
+        this.props.history.push('/');
+    }
+
     loadGames = () => {
         const { currentUser } = this.props.location.state;
-        console.log(currentUser)
         axios.get('/api/v1/games/' + currentUser)
             .then(res => {
                 let gameList = res.data;
-                console.log(gameList)
                 if (gameList !== this.state.gameList) {
                     this.setState({ gameList, gameKey: '' });
                 }
@@ -135,10 +145,8 @@ class GamePage extends Component {
     }
 
     deleteGame = async (id) => {
-        console.log(id)
         try {
             const response = await axios.delete('/api/v1/games/' + id);
-            console.log(response);
             if (response) {
                 this.loadGames();
                 this.closeSecondModal();

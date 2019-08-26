@@ -6,6 +6,7 @@ import './index.css';
 import { Link } from "react-router-dom";
 import MyButton from '../../components/buttons';
 import Modal from 'react-modal';
+import { withRouter } from 'react-router';
 
 Modal.setAppElement('#root');
 const customStyles = {
@@ -26,6 +27,7 @@ class LoginPage extends Component {
       email: '',
       password: '',
       loginSuccess: false,
+      logOut: false,
       isAdmin: false,
       currentUser: null,
       modalIsOpen: false
@@ -33,7 +35,6 @@ class LoginPage extends Component {
 
     this.openModal = this.openModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
-
     const currentUser = JSON.parse(localStorage.getItem("currentUser"));
     const isAdmin = JSON.parse(localStorage.getItem("isAdmin"));
     if (currentUser) {
@@ -41,7 +42,7 @@ class LoginPage extends Component {
         pathname: '/game',
         state: {
           currentUser: currentUser,
-          isAdmin: isAdmin
+          isAdmin: isAdmin,
         }
       });
     }
@@ -49,6 +50,10 @@ class LoginPage extends Component {
     this.handleLogin = this.handleLogin.bind(this);
 
   };
+
+  componentDidMount = () => {
+    this.handleLogOut();
+  }
 
   openModal() {
     this.setState({ modalIsOpen: true });
@@ -67,6 +72,13 @@ class LoginPage extends Component {
       [event.target.id]: event.target.value
     });
   };
+
+  handleLogOut = () => {
+    if (this.state.logOut) {
+      localStorage.removeItem('currentUser');
+      localStorage.removeItem('isAdmin');
+    }
+  }
 
   async handleLogin(event) {
     event.preventDefault();
@@ -179,4 +191,4 @@ class LoginPage extends Component {
   };
 }
 
-export default LoginPage;
+export default withRouter(LoginPage);

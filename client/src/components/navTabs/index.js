@@ -31,6 +31,17 @@ function NavTabs(props) {
                     Philips Hue
                 </NavLink>
             </Tabs.Tab>
+            <Tabs.Tab renderAs="div">
+
+                <NavLink style={{ fontSize: 'calc(100% + 0.8vw)', fontWeight: '600', textDecoration: 'underline' }} to={{
+                    pathname: '/game',
+                    state: {
+                        logOut: true
+                    }
+                }} activeClassName="is-active">
+                    Log Out
+                </NavLink>
+            </Tabs.Tab>
         </Tabs >
     );
 }
