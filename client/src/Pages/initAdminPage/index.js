@@ -18,57 +18,63 @@ const options = [
 ]
 
 class InitAdminPage extends Component {
-  state = {
-    characterList: [],
-    game_id: null,
-    user_id: null,
-    // endpoint: "localhost:3001"
-  }
+    state = {
+        characterList: [],
+        game_id: null,
+        user_id: null
+        // endpoint: "localhost:3001"
+    }
 
-  constructor() {
-    super();
-    this.socket = io();
-    // this.socket = io.connect(this.state.endpoint);
-  }
+    constructor(props) {
+        super(props);
+        this.socket = io();
+        // this.socket = io.connect(this.state.endpoint);
+        this.props.history.push({
+            pathname: '/initadmin',
+            state: 
+             this.props.location.state
+            
+        })
+    }
 
-  componentDidMount() {
-    this.loadChars();
-    let room = this.props.location.state.game_id;
-    this.socket.on('connect', () => {
-      this.socket.emit('room', room);
-    });
-    this.socket.on('listChange', (characterList) => {
-      this.setState({ characterList });
-    });
-  }
+    MyComponent = () => (
+        <Select options={options} />
+      )
 
-  MyComponent = () => (
-    <Select options={options} />
-  )
+    componentDidMount() {
+        this.loadChars();
+        let room = this.props.location.state.game_id;
+        this.socket.on('connect', () => {
+            this.socket.emit('room', room);
+        });
+        this.socket.on('listChange', (characterList) => {
+            this.setState({ characterList });
+        });
+    }
 
-  loadGameId = () => {
-    let game_id = this.props.location.state.game_id;
-    let game_name = this.props.location.state.game_name;
-    let secret = this.props.location.state.secret;
-    this.setState({ game_id });
-    localStorage.setItem("gameId", JSON.stringify(game_id));
-    localStorage.setItem("gameName", JSON.stringify(game_name));
-    localStorage.setItem("gameSecret", JSON.stringify(secret));
-  }
+    loadGameId = () => {
+        let game_id = this.props.location.state.game_id;
+        let game_name = this.props.location.state.game_name;
+        let secret = this.props.location.state.secret;
+        this.setState({ game_id });
+        localStorage.setItem("gameId", JSON.stringify(game_id));
+        localStorage.setItem("gameName", JSON.stringify(game_name));
+        localStorage.setItem("gameSecret", JSON.stringify(secret));
+    }
 
-  loadChars = async () => {
-    await this.loadGameId();
-    axios.get('/api/v1/characters/' + this.state.game_id)
-      .then(res => {
-        let characterList = res.data;
-        if (characterList.length === 0) {
-          //put modal here eventually
-        }
-        else if (characterList !== this.state.characterList) {
-          this.send(this.setState({ characterList }));
-        }
-      });
-  };
+    loadChars = async () => {
+        await this.loadGameId();
+        axios.get('/api/v1/characters/' + this.state.game_id)
+            .then(res => {
+                let characterList = res.data;
+                if (characterList.length === 0) {
+                    //put modal here eventually
+                }
+                else if (characterList !== this.state.characterList) {
+                    this.send(this.setState({ characterList }));
+                }
+            });
+    };
 
   componentWillUnmount() {
     this.socket.disconnect();

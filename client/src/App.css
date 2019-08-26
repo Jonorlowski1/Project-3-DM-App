@@ -80,3 +80,9 @@
 #formContainer {
   margin-bottom: 5px;
 }
+
+@media (max-width: 380px) {
+  #buttons {
+    width: auto;
+  }
+}

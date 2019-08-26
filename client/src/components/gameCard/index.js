@@ -23,7 +23,11 @@ const GameCard = (props) => {
                         </Link>
                     </Card.Footer.Item>
                     <Card.Footer.Item>
+<<<<<<< HEAD
                         <MyButton primary={true} text="Delete Game" onClick={() => props.removeGame(props.id, props.secret)}></MyButton>
+=======
+                        <MyButton wide={true} primary={false} text="Delete Game" onClick={() => props.removeGame(props.id, props.secret)}></MyButton>
+>>>>>>> protected-routes-4
                     </Card.Footer.Item>
                 </Card.Footer>)
         }
