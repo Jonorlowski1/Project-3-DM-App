@@ -53,5 +53,40 @@
     "id": 11,
     "name": "Mage",
     "image": "./images/womage.png"
+  },
+  {
+    "id": 12,
+    "name": "Female_Human",
+    "image": "./images/f_human_red.png"
+  },
+  {
+    "id": 13,
+    "name": "Female_Human_Alt",
+    "image": "./images/f_human_2.png"
+  },
+  {
+    "id": 14,
+    "name": "Female_Fighter",
+    "image": "./images/f_human_fighter_1.png"
+  },
+  {
+    "id": 15,
+    "name": "Female_Fighter_Alt",
+    "image": "./images/f_human_fighter_2.png"
+  },
+  {
+    "id": 16,
+    "name": "Mage_Alt",
+    "image": "./images/girl_alt_art.png"
+  },
+  {
+    "id": 17,
+    "name": "Orc_1",
+    "image": "./images/Orc_1.png"
+  },
+  {
+    "id": 18,
+    "name": "Orc_2",
+    "image": "./images/orc_brown.png"
   }
 ]
