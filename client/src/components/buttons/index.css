@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto|Darker+Grotesque|Farro&display=swap');
+
 .mybutton {
   margin: 5px;
   width: 180px;
@@ -10,7 +11,6 @@
   color: white;
   outline: 0;
   background-color: #5E372C;
-  background-color: #;
   border-radius: 2px;
   border: 1px;
   box-shadow: 0 2.5px 2.5px rgba(0, 0, 0, 0.19), 0 1.5px 1.5px rgba(0, 0, 0, 0.23);
@@ -18,6 +18,7 @@
 
 .mybutton-secondary {
   margin: 5px;
+  min-width: 180px;
   width: 180px;
   padding: 10px;
   font-family: 'Farro';
@@ -28,6 +29,23 @@
   outline: 0;
   /* background-color: #346E23; */
   background-color: #346E23;
+  border-radius: 2px;
+  border: 1px;
+  box-shadow: 0 2.5px 2.5px rgba(0, 0, 0, 0.19), 0 1.5px 1.5px rgba(0, 0, 0, 0.23);
+}
+
+.mybutton-tertiary {
+  margin: 5px;
+  width: 180px;
+  padding: 10px;
+  font-family: 'Farro';
+  text-decoration: none;
+  text-transform: uppercase;
+  text-align: center;
+  color: white;
+  outline: 0;
+  /* background-color: #346E23; */
+  background-color: #33337A;
   border-radius: 2px;
   border: 1px;
   box-shadow: 0 2.5px 2.5px rgba(0, 0, 0, 0.19), 0 1.5px 1.5px rgba(0, 0, 0, 0.23);
@@ -49,4 +67,17 @@
 
 .mybutton-secondary:active {
   box-shadow: none;
+}
+
+@media (max-width: 380px) {
+  .mybutton {
+    width: auto;
+    font-size: auto;
+  }
+
+  .mybutton-secondary {
+    min-width: none;
+    width: auto;
+    font-size: auto;
+  }
 }

@@ -125,6 +125,7 @@ class CreateCharacterPage extends Component {
     }
 
     render() {
+        console.log(this.props.location)
         if (this.state.createSuccess) {
             if (this.props.location.state.admin) {
                 return <Redirect to={{
@@ -133,7 +134,7 @@ class CreateCharacterPage extends Component {
                         game_id: this.state.game_id,
                         secret: this.props.location.state.secret,
                         game_name: this.props.location.state.game_name,
-                        admin: this.state.isAdmin
+                        admin: this.props.location.state.admin
                     }
                 }} />
             }

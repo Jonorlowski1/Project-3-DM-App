@@ -18,6 +18,14 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.BOOLEAN,
       defaultValue: true,
     },
+    resetPasswordToken: {
+      type: DataTypes.STRING,
+      default: null,
+    },
+    resetPasswordExpires: {
+      type: DataTypes.DATE,
+      default: null,
+    },
   });
 
   // Users.associate = (models) => {

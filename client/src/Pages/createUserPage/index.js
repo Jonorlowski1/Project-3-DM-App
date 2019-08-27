@@ -1,12 +1,26 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
+import { Link } from "react-router-dom";
 import { Form, Container } from 'react-bulma-components';
 import './index.css';
 import MyButton from '../../components/buttons'
+import Modal from 'react-modal';
 
 const currentUser = JSON.parse(localStorage.getItem("user_id"));
 const isAdmin = JSON.parse(localStorage.getItem("isAdmin"));
+
+Modal.setAppElement('#root');
+const customStyles = {
+    content: {
+        top: '50%',
+        left: '50%',
+        right: 'auto',
+        bottom: 'auto',
+        marginRight: '-50%',
+        transform: 'translate(-50%, -50%)'
+    }
+};
 
 class CreateUserPage extends Component {
     constructor(props) {
@@ -16,10 +30,21 @@ class CreateUserPage extends Component {
             password: '',
             admin: false,
             createSuccess: false,
-            user_id: null
+            user_id: null,
+            modalIsOpen: false
         };
 
         this.handleLogin = this.handleLogin.bind(this);
+        this.openModal = this.openModal.bind(this);
+        this.closeModal = this.closeModal.bind(this);
+    }
+
+    openModal() {
+        this.setState({ modalIsOpen: true });
+    }
+
+    closeModal() {
+        this.setState({ modalIsOpen: false });
     }
 
     validateForm() {
@@ -45,7 +70,7 @@ class CreateUserPage extends Component {
         try {
             const newUser = await axios.get('api/v1/users/' + this.state.email);
             if (newUser.data) {
-                alert("A user with this e-mail already exists");
+                this.openModal();
             }
             else {
                 const response = await axios.post('api/v1/users', {
@@ -120,6 +145,27 @@ class CreateUserPage extends Component {
                         />
                     </Container>
                 </form>
+
+                <Modal
+                    isOpen={this.state.modalIsOpen}
+                    onRequestClose={this.closeModal}
+                    style={customStyles}
+                    contentLabel="Failed User Create"
+                >
+                    <h2 className="title-2">A user with this e-mail already exists.</h2>
+                    <p className="title-2">Would you like to reset your password?</p>
+                    <Container id="buttons" fluid>
+                        <MyButton
+                            text="Close"
+                            primary={true}
+                            type="submit"
+                            onClick={this.closeModal}
+                        />
+                        <Link to="/forgotpassword">
+                            <MyButton static={true} text="Forgot Password?"></MyButton>
+                        </Link>
+                    </Container>
+                </Modal>
             </div>
         );
     }

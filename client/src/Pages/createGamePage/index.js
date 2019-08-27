@@ -5,9 +5,6 @@ import { Form, Container, Heading } from 'react-bulma-components';
 import './index.css';
 import MyButton from '../../components/buttons';
 
-const currentUser = JSON.parse(localStorage.getItem("user_id"));
-const isAdmin = JSON.parse(localStorage.getItem("isAdmin"));
-
 class CreateGamePage extends Component {
     constructor(props) {
         super(props);
@@ -17,7 +14,10 @@ class CreateGamePage extends Component {
             createSuccess: false,
             secret: ''
         };
-        if (!currentUser) {
+
+        console.log('Props:', this.props.location.state.user_id)
+        const { user_id } = this.props.location.state
+        if (!user_id) {
             this.props.history.push('/');
         }
         this.handleCreate = this.handleCreate.bind(this);
@@ -31,7 +31,7 @@ class CreateGamePage extends Component {
             [event.target.id]: value
         });
     }
-    async handleCreate(event) {
+    handleCreate = async event => {
         event.preventDefault();
         let secret = Math.random().toString(36).replace(/[^a-zA-Z0-9]+/g, '').substr(0, 8);
 
@@ -39,7 +39,7 @@ class CreateGamePage extends Component {
             const response = await axios.post('api/v1/games', {
                 name: this.state.name,
                 secret: secret,
-                user_id: currentUser
+                user_id: this.props.location.state.user_id
             });
             if (response.data) {
                 this.setState({
@@ -57,15 +57,18 @@ class CreateGamePage extends Component {
     }
 
     render() {
-        if (this.state.createSuccess) {
+        const { user_id, admin } = this.props.location.state
+        const { game_id, secret, name, createSuccess } = this.state
+        if (createSuccess) {
+          
             return <Redirect to={{
                 pathname: '/initadmin',
                 state: {
-                    game_id: this.state.game_id,
-                    secret: this.state.secret,
-                    game_name: this.state.name,
-                    admin: isAdmin,
-                    user_id: currentUser
+                    game_id: game_id,
+                    secret: secret,
+                    game_name: name,
+                    admin: admin,
+                    user_id: user_id
                 }
             }}
             />
