@@ -224,7 +224,7 @@ class HuePage extends Component {
         <NavTabs game_id={this.state.game_id} game_name={this.state.game_name} secret={this.state.secret} />
         <Heading className="title-1" size={1}>Lanterns</Heading>
         <Card id="huebox">
-          {!this.state.expired ?
+          {!this.state.expired && !isLoading ?
             <div>
               {this.resetUrl()}
               <div className="select" onClick={this.findAllLights}>

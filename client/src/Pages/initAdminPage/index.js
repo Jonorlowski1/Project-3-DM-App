@@ -21,7 +21,8 @@ class InitAdminPage extends Component {
     state = {
         characterList: [],
         game_id: null,
-        user_id: null
+        user_id: null,
+        isLoading: false
         // endpoint: "localhost:3001"
     }
 
@@ -57,6 +58,7 @@ class InitAdminPage extends Component {
     }
 
     loadChars = async () => {
+      this.setState({ isLoading: true })
         await this.loadGameId();
         axios.get('/api/v1/characters/' + this.state.game_id)
             .then(res => {
@@ -145,6 +147,18 @@ class InitAdminPage extends Component {
   }
 
   render() {
+    const { isLoading } = this.state;
+    if (isLoading) {
+      return (
+        <React.Fragment>
+          <NavTabs game_id={this.state.game_id} game_name={this.state.game_name} secret={this.state.secret} />
+          <Heading className="title-1" size={1}>Lanterns</Heading>
+          <Card id="huebox">
+          <h1>Loading...</h1>
+          </Card>
+        </React.Fragment>
+      )
+    }
 
     return (
       <React.Fragment>
