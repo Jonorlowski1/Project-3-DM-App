@@ -9,6 +9,8 @@ import { Link } from 'react-router-dom';
 import MyButton from '../../components/buttons'
 import MyTertiaryButton from '../../components/otherButtons';
 import Select from 'react-select';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import './index.css';
 
 const options = [
@@ -155,7 +157,7 @@ class InitAdminPage extends Component {
           <NavTabs game_id={this.props.location.state.game_id} game_name={this.props.location.state.game_name} secret={this.props.location.state.secret} />
           <Heading className="title-1 title-2" id="gameTitle" size={1}> {this.props.location.state.game_name}</Heading>
           <Heading className="title-2" id="secret" size={6}>Secret: {this.props.location.state.secret}</Heading>
-          <h1 className="loading">Loading...</h1>
+          <FontAwesomeIcon icon={faSpinner} spin></FontAwesomeIcon>
         </React.Fragment>
       )
     }
