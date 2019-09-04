@@ -155,7 +155,7 @@ class InitAdminPage extends Component {
           <NavTabs game_id={this.props.location.state.game_id} game_name={this.props.location.state.game_name} secret={this.props.location.state.secret} />
           <Heading className="title-1 title-2" id="gameTitle" size={1}> {this.props.location.state.game_name}</Heading>
           <Heading className="title-2" id="secret" size={6}>Secret: {this.props.location.state.secret}</Heading>
-          <h1>Loading...</h1>
+          <h1 className="loading">Loading...</h1>
         </React.Fragment>
       )
     }
