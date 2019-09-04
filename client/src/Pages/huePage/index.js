@@ -5,7 +5,8 @@ import axios from 'axios';
 import './index.css';
 import NavTabs from "../../components/navTabs";
 import { Redirect } from 'react-router-dom';
-import MyButton from '../../components/buttons'
+import MyButton from '../../components/buttons';
+import Spinner from 'react-spinkit';
 
 class HuePage extends Component {
   state = {
@@ -213,7 +214,7 @@ class HuePage extends Component {
           <NavTabs game_id={this.state.game_id} game_name={this.state.game_name} secret={this.state.secret} />
           <Heading className="title-1" size={1}>Lanterns</Heading>
           <Card id="huebox">
-            <h1>Loading...</h1>
+          <Spinner name="line-spin-fade-loader" />
           </Card>
         </React.Fragment>
       )

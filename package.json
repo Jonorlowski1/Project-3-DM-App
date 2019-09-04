@@ -90,6 +90,7 @@
     "react-image-picker": "^1.1.1",
     "react-modal": "^3.9.1",
     "react-select": "^3.0.4",
+    "react-spinkit": "^3.0.0",
     "sequelize": "^5.8.11",
     "socket.io": "^2.2.0"
   }
