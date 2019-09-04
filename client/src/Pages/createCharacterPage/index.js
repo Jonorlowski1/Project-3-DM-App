@@ -127,7 +127,7 @@ class CreateCharacterPage extends Component {
     render() {
         console.log(this.props.location)
         if (this.state.createSuccess) {
-            if (this.props.location.state.admin) {
+            if (this.state.isAdmin) {
                 return <Redirect to={{
                     pathname: '/initadmin',
                     state: {
