@@ -20,7 +20,8 @@ class HuePage extends Component {
     game_name: '',
     secret: '',
     redirect: false,
-    expired: true
+    expired: true,
+    isLoading: false,
   }
 
   componentDidMount() {
@@ -50,7 +51,7 @@ class HuePage extends Component {
         this.setState({ expired: false });
         this.setState({ redirect: hueState });
         this.connectionHandler();
-        
+
       }).catch(err => {
         console.log(err);
       })
@@ -88,17 +89,22 @@ class HuePage extends Component {
   }
 
   connectionHandler = () => {
+    this.setState({ isLoading: true })
     const accessToken = this.state.access_token;
     axios.post('/api/v1/huelights/bridge', {
       accessToken: accessToken
     }).then(res => {
       const username = res.data;
-      this.setState({ username })
-      this.setState({ expired: false })
+      this.setState({
+        username,
+        isLoading: false,
+        expired: false
+      });
       this.findAllLights();
     }).catch(
       this.setState({ expired: true })
-    )};
+    )
+  };
 
   findAllLights = () => {
     axios.post('/api/v1/huelights/alllights', {
@@ -200,13 +206,23 @@ class HuePage extends Component {
   };
 
   render() {
+    const { isLoading } = this.state;
+    if (isLoading) {
+      return (
+        <React.Fragment>
+          <NavTabs game_id={this.state.game_id} game_name={this.state.game_name} secret={this.state.secret} />
+          <Heading className="title-1" size={1}>Lanterns</Heading>
+          <Card id="huebox">
+            <h1>Loading...</h1>
+          </Card>
+        </React.Fragment>
+      )
+    }
     return (
       <React.Fragment>
         <NavTabs game_id={this.state.game_id} game_name={this.state.game_name} secret={this.state.secret} />
         <Heading className="title-1" size={1}>Lanterns</Heading>
         <Card id="huebox">
-
-
           {!this.state.expired ?
             <div>
               {this.resetUrl()}
