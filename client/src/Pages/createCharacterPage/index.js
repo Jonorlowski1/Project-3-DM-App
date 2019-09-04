@@ -36,9 +36,9 @@ class CreateCharacterPage extends Component {
     componentDidMount() {
         this.loadGameId();
         window.scrollTo(0, 0);
-        const currentUser = JSON.parse(localStorage.getItem("user_id"));
-        const isAdmin = JSON.parse(localStorage.getItem("isAdmin"));
-        this.setState({ currentUser, isAdmin })
+        const { admin } = this.props.location.state;
+        this.setState({ isAdmin: admin })
+        console.log(admin)
     }
 
     onPick(image) {

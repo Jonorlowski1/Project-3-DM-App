@@ -29,12 +29,6 @@ class InitAdminPage extends Component {
         super(props);
         this.socket = io();
         // this.socket = io.connect(this.state.endpoint);
-        this.props.history.push({
-            pathname: '/initadmin',
-            state: 
-             this.props.location.state
-            
-        })
     }
 
     MyComponent = () => (
