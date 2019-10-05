@@ -9,6 +9,8 @@ import { Link } from 'react-router-dom';
 import MyButton from '../../components/buttons'
 import MyTertiaryButton from '../../components/otherButtons';
 import Select from 'react-select';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import './index.css';
 
 const options = [
@@ -18,63 +20,60 @@ const options = [
 ]
 
 class InitAdminPage extends Component {
-    state = {
-        characterList: [],
-        game_id: null,
-        user_id: null
-        // endpoint: "localhost:3001"
-    }
+  state = {
+    characterList: [],
+    game_id: null,
+    user_id: null,
+    isLoading: false
+    // endpoint: "localhost:3001"
+  }
 
-    constructor(props) {
-        super(props);
-        this.socket = io();
-        // this.socket = io.connect(this.state.endpoint);
-        this.props.history.push({
-            pathname: '/initadmin',
-            state: 
-             this.props.location.state
-            
-        })
-    }
+  constructor(props) {
+    super(props);
+    this.socket = io();
+    // this.socket = io.connect(this.state.endpoint);
+  }
 
-    MyComponent = () => (
-        <Select options={options} />
-      )
+  MyComponent = () => (
+    <Select options={options} />
+  )
 
-    componentDidMount() {
-        this.loadChars();
-        let room = this.props.location.state.game_id;
-        this.socket.on('connect', () => {
-            this.socket.emit('room', room);
-        });
-        this.socket.on('listChange', (characterList) => {
-            this.setState({ characterList });
-        });
-    }
+  componentDidMount() {
+    this.loadChars();
+    let room = this.props.location.state.game_id;
+    this.socket.on('connect', () => {
+      this.socket.emit('room', room);
+    });
+    this.socket.on('listChange', (characterList) => {
+      this.setState({ characterList });
+    });
+  }
 
-    loadGameId = () => {
-        let game_id = this.props.location.state.game_id;
-        let game_name = this.props.location.state.game_name;
-        let secret = this.props.location.state.secret;
-        this.setState({ game_id });
-        localStorage.setItem("gameId", JSON.stringify(game_id));
-        localStorage.setItem("gameName", JSON.stringify(game_name));
-        localStorage.setItem("gameSecret", JSON.stringify(secret));
-    }
+  loadGameId = () => {
+    let game_id = this.props.location.state.game_id;
+    let game_name = this.props.location.state.game_name;
+    let secret = this.props.location.state.secret;
+    this.setState({ game_id });
+    localStorage.setItem("gameId", JSON.stringify(game_id));
+    localStorage.setItem("gameName", JSON.stringify(game_name));
+    localStorage.setItem("gameSecret", JSON.stringify(secret));
+  }
 
-    loadChars = async () => {
-        await this.loadGameId();
-        axios.get('/api/v1/characters/' + this.state.game_id)
-            .then(res => {
-                let characterList = res.data;
-                if (characterList.length === 0) {
-                    //put modal here eventually
-                }
-                else if (characterList !== this.state.characterList) {
-                    this.send(this.setState({ characterList }));
-                }
-            });
-    };
+  loadChars = async () => {
+    this.setState({ isLoading: true })
+    await this.loadGameId();
+    axios.get('/api/v1/characters/' + this.state.game_id)
+      .then(res => {
+        let characterList = res.data;
+        if (characterList.length === 0) {
+          //put modal here eventually
+        }
+        else if (characterList !== this.state.characterList) {
+          this.setState({ isLoading: false })
+          this.send(this.setState({ characterList }));
+        }
+      });
+  };
 
   componentWillUnmount() {
     this.socket.disconnect();
@@ -151,6 +150,19 @@ class InitAdminPage extends Component {
   }
 
   render() {
+    const { isLoading } = this.state;
+    if (isLoading) {
+      return (
+        <React.Fragment>
+          <NavTabs game_id={this.props.location.state.game_id} game_name={this.props.location.state.game_name} secret={this.props.location.state.secret} />
+          <Heading className="title-1 title-2" id="gameTitle" size={1}> {this.props.location.state.game_name}</Heading>
+          <Heading className="title-2" id="secret" size={6}>Secret: {this.props.location.state.secret}</Heading>
+          <div className="loading">
+          <FontAwesomeIcon icon={faSpinner} spin></FontAwesomeIcon>
+          </div>
+        </React.Fragment>
+      )
+    }
 
     return (
       <React.Fragment>

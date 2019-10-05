@@ -5,7 +5,9 @@ import axios from 'axios';
 import './index.css';
 import NavTabs from "../../components/navTabs";
 import { Redirect } from 'react-router-dom';
-import MyButton from '../../components/buttons'
+import MyButton from '../../components/buttons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 
 class HuePage extends Component {
   state = {
@@ -20,7 +22,8 @@ class HuePage extends Component {
     game_name: '',
     secret: '',
     redirect: false,
-    expired: true
+    expired: true,
+    isLoading: false,
   }
 
   componentDidMount() {
@@ -40,6 +43,7 @@ class HuePage extends Component {
   checkForAuthCode = () => {
     const url = window.location.href;
     if (url.includes('code')) {
+      this.setState({ isLoading: true })
       const code = url.split('.com/hue?code=')[1].split('&state=none')[0];
       const hueState = url.split('&state=')[1];
       axios.post('/api/v1/huelights/connect', {
@@ -50,7 +54,7 @@ class HuePage extends Component {
         this.setState({ expired: false });
         this.setState({ redirect: hueState });
         this.connectionHandler();
-        
+
       }).catch(err => {
         console.log(err);
       })
@@ -88,17 +92,22 @@ class HuePage extends Component {
   }
 
   connectionHandler = () => {
+    this.setState({ isLoading: true })
     const accessToken = this.state.access_token;
     axios.post('/api/v1/huelights/bridge', {
       accessToken: accessToken
     }).then(res => {
       const username = res.data;
-      this.setState({ username })
-      this.setState({ expired: false })
+      this.setState({
+        username,
+        isLoading: false,
+        expired: false
+      });
       this.findAllLights();
     }).catch(
       this.setState({ expired: true })
-    )};
+    )
+  };
 
   findAllLights = () => {
     axios.post('/api/v1/huelights/alllights', {
@@ -200,14 +209,26 @@ class HuePage extends Component {
   };
 
   render() {
+    const { isLoading } = this.state;
+    if (isLoading) {
+      return (
+        <React.Fragment>
+          <NavTabs game_id={this.state.game_id} game_name={this.state.game_name} secret={this.state.secret} />
+          <Heading className="title-1" size={1}>Lanterns</Heading>
+          <Card id="huebox">
+            <div className="spinner">
+          <FontAwesomeIcon icon={faSpinner} spin></FontAwesomeIcon>
+          </div>
+          </Card>
+        </React.Fragment>
+      )
+    }
     return (
       <React.Fragment>
         <NavTabs game_id={this.state.game_id} game_name={this.state.game_name} secret={this.state.secret} />
         <Heading className="title-1" size={1}>Lanterns</Heading>
         <Card id="huebox">
-
-
-          {!this.state.expired ?
+          {!this.state.expired && !isLoading ?
             <div>
               {this.resetUrl()}
               <div className="select" onClick={this.findAllLights}>
